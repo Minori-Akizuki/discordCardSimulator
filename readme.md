@@ -1,0 +1,3 @@
+# discord card simulator
+
+WIP!
