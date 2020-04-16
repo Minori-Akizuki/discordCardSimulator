@@ -1,0 +1,20 @@
+{
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "start": "node app.js",
+        "test": "mocha --recursive",
+        "test-cov": "istanbul test _mocha -- test"
+    },
+    "dependencies": {
+        "discord.js": "^12.1.1",
+        "klasa": "github:dirigeants/klasa"
+    },
+    "devDependencies": {
+        "eslint": "^6.8.0",
+        "eslint-config-google": "^0.14.0",
+        "expect": "^25.3.0",
+        "istanbul": "^0.4.5"
+    }
+}
