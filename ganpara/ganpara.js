@@ -6,10 +6,10 @@ const Randomizer = require('../cardbase/randomizer.js');
 module.exports = class ganpara {
   /**
    * @constructor
-   * @param {IMessenger} messengreGloval 通知用メッセンジャー
+   * @param {IMessenger} messengerGloval 通知用メッセンジャー
    */
-  constructor(messengreGloval) {
-    this.messengreGloval = messengreGloval;
+  constructor(messengerGloval) {
+    this.messengerGloval = messengerGloval;
     this.rnd = new Randomizer();
     this.playerNum = null;
     this.players = [];
@@ -29,6 +29,7 @@ module.exports = class ganpara {
     if (index == -1) return -1;
     return this.players[index];
   }
+
   /**
    * カードを名前指定で抜きとる
    * @param {Cards} cards 対象のデッキ
@@ -68,6 +69,7 @@ module.exports = class ganpara {
      * @param {[Cards]} _deck その他のカード
      */
   setup(players, _lifesIn, _lifesOpt, _startHands, _startMarket, _deck) {
+    this.messengerGloval.send('ゲームを初期化します');
     // カード捨て場
     const trash = new Cards();
     // convert
@@ -113,14 +115,12 @@ module.exports = class ganpara {
     // プレイヤーに手札を配る
     this.players = [];
     for (let i=0; i<this.playerNum; i++) {
-      this.players.push(new GPlayer(players[i].name, players[i].id, players[i].messenger, this.messengreGloval));
+      this.players.push(new GPlayer(players[i].name, players[i].id, players[i].messenger, this.messengerGloval));
       for (const d of [bullets, gangsters, moneys, specialists, weapons, deck]) {
         this.players[i].hand.drawFrom(d, 1);
       }
       this.players[i].life.drawFrom(lifesIn, 1);
-      console.log(this.players[i].name);
-      console.log(this.players[i].hand.toString());
-      console.log(this.players[i].life.toString());
+      this.players[i].sortHand();
     }
 
     // プレイヤーの順番をシャッフル
@@ -130,8 +130,13 @@ module.exports = class ganpara {
     this.deck = deck;
     this.market = startMarket;
     startMarket.drawFrom(this.deck, 3);
+
     this.inited = true;
-    console.log(this.toString());
+
+    // 手札の通知
+    this.players.forEach(function(p) {
+      p.messengerOwn.send(p.hand.toString());
+    });
   }
 
   /**
@@ -146,7 +151,7 @@ module.exports = class ganpara {
    */
   roundTurn() {
     this.turnPlayerNum = ++this.turnPlayerNum % this.playerNum;
-    this.messengreGloval.send(`ターンプレイヤーは${this.turnPlayer().name}です。`);
+    this.messengerGloval.send(`ターンプレイヤーは${this.turnPlayer().name}です。`);
   }
 
   /**

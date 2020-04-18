@@ -10,6 +10,20 @@ module.exports = class extends Provider {
   constructor(...args) {
     super(...args, {name: 'ganparaGame'});
     this.rooms = {};
+    this.message = {
+      NO_MAKED_ROOM: '部屋が作られていません',
+      NO_STARTED_GAME: 'ゲームがスタートしていません',
+    };
+  }
+
+  /**
+   * ゲームがその部屋で開始されているかどうかを調べる
+   * @param {KlasaMessage} message 
+   * @return {Boolean} ゲームが開始しているかどうか
+   */
+  isStartedGame(message) {
+    const room = this.returnRoom(message);
+    return room && room.isStarted;
   }
 
   /**
@@ -39,9 +53,13 @@ module.exports = class extends Provider {
   makeRoom(message) {
     const roomId = this.returnRoomId(message);
     if (!this.rooms[roomId]) {
+      const messengerGloval = {send: function(txt) {
+        message.channel.sendMessage(txt);
+      }};
       this.rooms[roomId] = {};
       this.rooms[roomId].id = roomId;
-      this.rooms[roomId].game = new Ganpara();
+      this.rooms[roomId].messengerGloval = messengerGloval;
+      this.rooms[roomId].game = new Ganpara(messengerGloval);
       this.rooms[roomId].entryies = [];
       this.rooms[roomId].channel = message.channel;
       this.rooms[roomId].isStarted = false;
@@ -72,7 +90,7 @@ module.exports = class extends Provider {
    * @return {*} 部屋
    */
   entryRoom(message, name) {
-    const author = message.author.id;
+    const author = message.author;
     const roomId = this.returnRoomId(message);
     const room = this.rooms[roomId];
 
@@ -82,12 +100,12 @@ module.exports = class extends Provider {
     }
 
     // すでにエントリーしていた場合
-    if (room.entryies.findIndex((p)=>p.id==author) != -1) {
+    if (room.entryies.findIndex((p)=>p.id==author.id) != -1) {
       return false;
     }
 
     const p = {
-      id: author,
+      id: author.id,
       name: name,
       messenger: {
         send: function(text) {
@@ -115,5 +133,6 @@ module.exports = class extends Provider {
         deck.startMarket,
         deck.deck,
     );
+    room.isStarted = true;
   }
 };

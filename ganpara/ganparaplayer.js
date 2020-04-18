@@ -143,6 +143,8 @@ module.exports = class player {
     const c = deck.pickTop();
     this.addToHand([c]);
     this.sortHand();
+    this.messengerGloval.send(`${this.name}がカードを引きました`);
+    this.messengerOwn.send(this.hand.toString());
   }
 
   /**
@@ -155,6 +157,20 @@ module.exports = class player {
     const c = deck.pickTop();
     this.messengerGloval.send(`${c.toString()}が公開されました`);
     market.putOn(c);
+  }
+
+  /**
+   * 場のリセット
+   * @param {Cards} m マーケット
+   * @param {Cards} d デッキ
+   */
+  resetMarket(m, d) {
+    d.putOn(m);
+    d.shaffle();
+    m.drawFrom(d, 5);
+    m.sort(GCard.compare());
+    messengerGloval.send('場札 : ');
+    messengerGloval.send(m.toString);
   }
 
   /**
