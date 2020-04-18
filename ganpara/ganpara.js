@@ -1,14 +1,19 @@
 const Cards = require('../cardbase/cards.js');
 const GCard = require('./ganparacard.js');
 const GPlayer = require('./ganparaplayer');
+const Randomizer = require('../cardbase/randomizer.js');
 
 module.exports = class ganpara {
   /**
    * @constructor
+   * @param {IMessenger} messengreGloval 通知用メッセンジャー
    */
-  constructor() {
+  constructor(messengreGloval) {
+    this.messengreGloval = messengreGloval;
+    this.rnd = new Randomizer();
     this.playerNum = null;
     this.players = [];
+    this.turnPlayerNum = 0;
     this.market = new Cards();
     this.deck = new Cards();
     this.inited = false;
@@ -45,7 +50,7 @@ module.exports = class ganpara {
      *  .specialists
      *  .weapons
      * 余ったカードはデッキに入ります。
-     * @param {[String]} players プレイヤー
+     * @param {[Object]} players プレイヤー
      * @param {[Card]} _lifesIn 確定ライフ
      * @param {[Card]} _lifesOpt 欠けありライフ
      * @param {Object} _startHands 初期手札に入るカード
@@ -97,8 +102,8 @@ module.exports = class ganpara {
     // プレイヤーに手札を配る
     this.players = [];
     for (let i=0; i<this.playerNum; i++) {
-      this.players.push(new GPlayer());
-      this.players[i].name = players[i];
+      this.players.push(new GPlayer(players.name, players.messenger, this.messengreGloval));
+      this.players[i].name = players[i].name;
       this.players[i].hand = new Cards();
       for (const d of [bullets, gangsters, moneys, specialists, weapons, deck]) {
         this.players[i].hand.drawFrom(d, 1);
@@ -109,11 +114,29 @@ module.exports = class ganpara {
       console.log(this.players[i].life.toString());
     }
 
+    // プレイヤーの順番をシャッフル
+    this.players = this.rnd.shaffle(this.players);
+
     // 初期場の開示
     this.market = startMarket;
     startMarket.drawFrom(deck, 3);
     this.inited = true;
     console.log(this.toString());
+  }
+
+  /**
+   * ターンプレイヤー
+   * @return {GPlayer} ターンプレイヤー
+   */
+  turnPlayer() {
+    return this.players[this.turnPlayerNum];
+  }
+  /**
+   * ターンを回す
+   */
+  roundTurn() {
+    this.turnPlayerNum = ++this.turnPlayerNum % this.playerNum;
+    this.messengreGloval.send(`ターンプレイヤーは${this.turnPlayer().name}です。`);
   }
 
   /**
@@ -129,6 +152,7 @@ module.exports = class ganpara {
     const players = this.players.map((x)=>{
       return `${x.toString()}`;
     }).join('\n');
-    return [decknum, market, players].join('\n');
+    const turnPlayer = `Turn player is ${this.players[this.turnPlayerNum].name}`;
+    return [decknum, market, players, turnPlayer].join('\n');
   }
 };

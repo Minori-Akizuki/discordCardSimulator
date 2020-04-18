@@ -79,7 +79,7 @@ describe('クラス機能チェック(Card)', function() {
   it('デッキトップのピープ(1)', function() {
     const deck = new Cards(getSortedSimpleCards());
     // 1枚ピーピング
-    const c = deck.peepTop(1);
+    const c = deck.peep(1);
     // ピーピング結果が1である
     expect(c).toEqual(expect.arrayContaining([1]));
     // 内容量がかわらない
@@ -91,7 +91,7 @@ describe('クラス機能チェック(Card)', function() {
   it('デッキトップのピープ(0)', function() {
     const deck = new Cards(getSortedSimpleCards());
     // 0枚ピーピング
-    const c = deck.peepTop(0);
+    const c = deck.peep(0);
     // ピーピング結果がない
     expect(c).toEqual([]);
     // 内容量がかわらない
@@ -103,7 +103,7 @@ describe('クラス機能チェック(Card)', function() {
   it('デッキトップのピープ(5)', function() {
     const deck = new Cards(getSortedSimpleCards());
     // 5枚ピーピング
-    const c = deck.peepTop(5);
+    const c = deck.peep(5);
     // ピーピング結果が5まで
     expect(c).toEqual([1, 2, 3, 4, 5]);
     // 内容量がかわらない
@@ -115,7 +115,7 @@ describe('クラス機能チェック(Card)', function() {
   it('デッキトップのピープ(10)', function() {
     const deck = new Cards(getSortedSimpleCards());
     // 10枚ピーピング
-    const c = deck.peepTop(10);
+    const c = deck.peep(10);
     // ピーピング結果が全て
     expect(c).toEqual(simpleCards);
     // 内容量がかわらない
@@ -127,7 +127,7 @@ describe('クラス機能チェック(Card)', function() {
   it('デッキトップのピープ(11)', function() {
     const deck = new Cards(getSortedSimpleCards());
     // 11枚ピーピング
-    const c = deck.peepTop(10);
+    const c = deck.peep(10);
     // ピーピング結果が全て
     expect(c).toEqual(simpleCards);
     // 内容量がかわらない

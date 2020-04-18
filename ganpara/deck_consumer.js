@@ -1,15 +1,15 @@
 module.exports = {
   comsumer: JSON.parse( JSON.stringify( {
     lifesIn: [
-      {nameE: 'RED LIFE', nameJ: '革命派', kind: 'LIFE CARD', cost: '', text: 'このカードは公開してはいけない'},
-      {nameE: 'BLUE LIFE', nameJ: '保守派', kind: 'LIFE CARD', cost: '', text: 'このカードは公開してはいけない'},
-      {nameE: 'BLACK LIFE', nameJ: '裏切者', kind: 'LIFE CARD', cost: '', text: 'このカードを公開すると行動回数が1増える'},
+      {nameE: 'RED LIFE', nameJ: '革命派', kind: 'LIFE CARD', cost: '', text: 'このカードは公開してはいけない', isLife: true},
+      {nameE: 'BLUE LIFE', nameJ: '保守派', kind: 'LIFE CARD', cost: '', text: 'このカードは公開してはいけない', isLife: true},
+      {nameE: 'BLACK LIFE', nameJ: '裏切者', kind: 'LIFE CARD', cost: '', text: 'このカードを公開すると行動回数が1増える', isLife: true},
     ],
     lifesOpt: [
-      {nameE: 'RED LIFE', nameJ: '革命派', kind: 'LIFE CARD', cost: '', text: 'このカードは公開してはいけない'},
-      {nameE: 'BLUE LIFE', nameJ: '保守派', kind: 'LIFE CARD', cost: '', text: 'このカードは公開してはいけない'},
-      {nameE: 'PURPLE LIFE', nameJ: '臆病者', kind: 'LIFE CARD', cost: '', text: 'このカードを他人に見られると【死亡】する'},
-      {nameE: 'GRAY LIFE', nameJ: '共謀者', kind: 'LIFE CARD', cost: '', text: 'このカードを他人に見られると【死亡】する'},
+      {nameE: 'RED LIFE', nameJ: '革命派', kind: 'LIFE CARD', cost: '', text: 'このカードは公開してはいけない', isLife: true},
+      {nameE: 'BLUE LIFE', nameJ: '保守派', kind: 'LIFE CARD', cost: '', text: 'このカードは公開してはいけない', isLife: true},
+      {nameE: 'PURPLE LIFE', nameJ: '臆病者', kind: 'LIFE CARD', cost: '', text: 'このカードを他人に見られると【死亡】する', isLife: true},
+      {nameE: 'GRAY LIFE', nameJ: '共謀者', kind: 'LIFE CARD', cost: '', text: 'このカードを他人に見られると【死亡】する', isLife: true},
     ],
     startHands: {
       gangsters: [

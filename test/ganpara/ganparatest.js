@@ -4,12 +4,26 @@ const GCard = require('../../ganpara/ganparacard.js');
 const deck = require('../../ganpara/deck_consumer.js').comsumer;
 
 const expect = require('expect');
+const messenger = function(name) {
+  return {
+    send: function(m) {
+      console.log(`${m} -> ${name}`);
+    },
+  };
+};
 
-const players = ['MoneyJ', 'Dayday', 'Caralina', 'Maria', 'Drop', 'Kirisato'];
+const players = [
+  {name: 'MoneyJ', messenger: messenger('MoneyJ')},
+  {name: 'Dayday', messenger: messenger('Dayday')},
+  {name: 'Caralina', messenger: messenger('Caralina')},
+  {name: 'Maria', messenger: messenger('Maria')},
+  {name: 'Drop', messenger: messenger('Drop')},
+  {name: 'Kirisato', messenger: messenger('Kirisato')},
+];
 
 describe('クラス機能チェック(ganpara)', function() {
-  it('コンストラクタ', function() {
-    const gp = new Ganpara();
+  it('コンストラクタ/セットアップ', function() {
+    const gp = new Ganpara(messenger('gloval'));
     gp.setup(
         players,
         deck.lifesIn,
@@ -18,19 +32,6 @@ describe('クラス機能チェック(ganpara)', function() {
         deck.startMarket,
         deck.deck,
     );
-    gp.players.forEach((p, i)=>{
-      expect(p.hand).toBeInstanceOf(Cards);
-      expect(p.hand.number()).toEqual(6);
-      for (const c of p.hand.cs) {
-        expect(c).toBeInstanceOf(GCard);
-      }
-      expect(p.life).toBeInstanceOf(Cards);
-      expect(p.life.number()).toEqual(1);
-      expect(p.life.cs[0]).toBeInstanceOf(GCard);
-      expect(p.name).toEqual(players[i]);
-      expect(p.front.number()).toEqual(0);
-      expect(p.isLive).toBe(true);
-      expect(p.isLifeOpened).toBe(false);
-    });
+    gp.roundTurn();
   });
 });

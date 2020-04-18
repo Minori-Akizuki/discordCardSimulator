@@ -1,23 +1,38 @@
 const Cards = require('../cardbase/cards.js');
+const Randomizer = require('../cardbase/randomizer');
+const GCard = require('./ganparacard');
 
 module.exports = class player {
   /**
      * @constructor
      * @param {String} name プレイヤー名
+     * @param {IMessenger} messengerOwn 自身への通知先
+     * @param {IMessenger} messengerGloval 全体通知先
      */
-  constructor(name) {
+  constructor(name, messengerOwn, messengerGloval) {
     this.name = name;
+    this.messengerGloval = messengerGloval;
+    this.messengerOwn = messengerOwn;
     this.life = new Cards();
     this.opendLife = null;
     this.hand = new Cards();
     this.front = new Cards();
     this.isLive = true;
     this.isLifeOpened = false;
+    this.rnd = new Randomizer();
+  }
+
+  /**
+   * 手札枚数
+   * @return {Number}
+   */
+  handNum() {
+    return this.hand.number() + this.life.number();
   }
 
   /**
    * 指定カードを手札に入れる
-   * @param {Card} cs カード
+   * @param {[Card]} cs カード
    */
   addToHand(cs) {
     cs.map((x)=> this.hand.putOn(x));
@@ -28,7 +43,9 @@ module.exports = class player {
    * @return {String} 手札文字列
    */
   printHandWithLife() {
-    return this.hand.toString() + '\nLIFE: ' + this.life.toString();
+    const hand = this.hand.toString() + '\nLIFE: ' + this.life.toString();
+    this.messengerOwn.send( hand );
+    return hand;
   }
 
   /**
@@ -50,12 +67,18 @@ module.exports = class player {
   }
 
   /**
-   * 任意のカードを捨てる。
+   * 任意のカードを捨てる。もしライフだった場合は自身の前に置く。
    * @param {Number} n 指定カードナンバー
    * @param {Cards} market 場
    */
   trashHand(n, market) {
-    market.putOn(c);
+    const c = this.hand.pick(n);
+    if (!c) return;
+    if (c.isLife) {
+      this.front.putOn(c);
+    } else {
+      market.putOn(c);
+    }
   }
 
   /**
@@ -63,14 +86,29 @@ module.exports = class player {
    */
   trashLife() {
     const l = this.life.pick(1);
-    this.front.putOn(c);
+    this.front.putOn(l);
   }
 
+  /**
+   * 手札をソートする
+   */
+  sortHand() {
+    this.hand.cs.sort(GCard.conpare);
+  }
+
+  /**
+   * 手札に入っているライフを分ける
+   */
+  divideLife() {
+    const i = this.hand.cs.findIndex((x)=>x.isLife);
+    if (i == -1) return;
+    this.life.putOn(this.hand.pick(i+1));
+  }
   /**
    * ライフを開ける(手札には残ったまま)
    */
   openLife() {
-    this.opendLife = this.life.peepTop(1);
+    this.opendLife = this.life.peep(1);
     this.isLifeOpened = true;
   }
 
@@ -80,7 +118,9 @@ module.exports = class player {
    * @return {String} カード文字列
    */
   openHand(n) {
-    return n + ' : ' + this.hand.cs[n-1].toString();
+    const str = this.hand.cs[n-1].toString();
+    this.messengerGloval.send(str);
+    return str;
   }
 
   /**
@@ -88,15 +128,95 @@ module.exports = class player {
    * @return {String} カード文字列
    */
   openHandAll() {
-    return this.hand.toString();
+    const str = this.hand.toString();
+    this.messengerGloval.send(str);
+    return str;
   }
 
   /**
-   * 手札枚数
-   * @return {Number}
+   * カードを引く
+   * @param {Cards} deck デッキ
    */
-  handNum() {
-    return this.hand.number() + this.life.number();
+  drawACard(deck) {
+    const c = deck.pickTop();
+    this.addToHand([c]);
+    this.sortHand();
+  }
+
+  /**
+   * ワンモアドロー処理
+   * @param {Cards} deck デッキ
+   * @param {Cards} market 場
+   */
+  oneMoreDraw(deck, market) {
+    this.drawACard(deck);
+    const c = deck.pickTop();
+    this.messengerGloval.send(`${c.toString()}が公開されました`);
+    market.putOn(c);
+  }
+
+  /**
+   * 対象に[確認X]をする
+   * このときバックに印のあるカードは対象外になる
+   * @param {player} player 対象
+   * @param {Number} n 枚数
+   * @return {Cards} 引いたカード
+   */
+  checkX(player, n) {
+    const noBack = player.hand.copy().filter((x)=>!x.back);
+    noBack.putOn(player.life.copy());
+    noBack.shaffle();
+    const peepd = new Cards( noBack.peep(n) );
+    this.messengerOwn.send(peepd.toString());
+    return peepd;
+  }
+
+  /**
+   * 対象から[奪取X]をする
+   * バックに印のあるカードは対象外になる
+   * 奪取する枚数よりバックに印が無いカードが少なければとりあえずそれらを取る
+   * @param {player} player 対象
+   * @param {Number} n 枚数
+   */
+  stealX(player, n) {
+    let _n = n;
+    const noBackNum = player.hand.copy().filter((x)=>!x.back).number();
+    if (noBackNum < n) {
+      _n = noBackNum;
+    }
+    player.hand.shaffle();
+    for (let t=1; t<=_n; ) {
+      const c = player.hand.pickTop();
+      if (!c.back) {
+        this.addToHand([c]);
+        t++;
+      } else {
+        player.hand.putUnder([c]);
+      }
+    }
+    player.sortHand();
+  }
+
+  /**
+   * 対象に[即死X]をする
+   * バックに印のあるカードは除外される。
+   * 残ったカードは自身で捨ててもらう
+   * @param {player} player 対象
+   * @param {Number} n 枚数
+   * @param {Cards} market 場
+   */
+  suddenDeathX(player, n, market) {
+    player.hand.putOn(player.life);
+    player.hand.shaffle();
+    for (let t=1; t<=n && 0 < player.handNum(); t++) {
+      if (player.hand.peepTop().back) {
+        player.hand.putUnder(player.hand.pickTop());
+      } else {
+        this.messengerGloval.send(player.hand.peepTop() + 'が捨てられました');
+        player.trashHand(1, market);
+      }
+    }
+    player.divideLife();
   }
 
   /**

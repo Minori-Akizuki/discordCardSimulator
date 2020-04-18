@@ -1,3 +1,5 @@
+const Randomizer = require('./randomizer.js');
+
 /**
  * カードの束
  */
@@ -9,6 +11,7 @@ module.exports = class Cards {
      */
   constructor(cards) {
     this.cs = cards ? cards.concat() : [];
+    this.rnd = new Randomizer();
   }
 
   /**
@@ -20,13 +23,15 @@ module.exports = class Cards {
   }
 
   /**
-     * カードシャッフル
-     */
+  * カードシャッフル
+  * @return {Cards} this
+  */
   shaffle() {
     for (let i = this.cs.length-1; i>=0; i--) {
-      const j = Math.floor(Math.random()*(i+1));
+      const j = this.rnd.dice(i+1)-1;
       [this.cs[i], this.cs[j]] = [this.cs[j], this.cs[i]];
     }
+    return this;
   }
 
   /**
@@ -57,10 +62,15 @@ module.exports = class Cards {
   }
 
   /**
-     * 上にのせる
+     * カードかデッキを上にのせる
      * @param {any} card
      */
   putOn(card) {
+    if (card instanceof Cards) {
+      this.cs = card.cs.concat(this.cs);
+      card.cs = [];
+      return;
+    }
     this.cs.unshift(card);
   }
 
@@ -73,16 +83,34 @@ module.exports = class Cards {
   }
 
   /**
-     * 上から数枚見る
-     * @param {Number} n
-     * @return {[any]}
+     * 上から1枚見る
+     * @return {any}
      */
-  peepTop(n) {
+  peepTop() {
+    return this.peep(1)[0];
+  }
+
+  /**
+   * 上から数枚枚見る
+   * @param {Number} n 枚数
+   * @return {[any]}
+   */
+  peep(n) {
     const peep = [];
     for (let i=0; i < n && i < this.cs.length; i++) {
       peep.push(this.cs[i]);
     }
     return peep;
+  }
+
+  /**
+   * 指定番号のカードを見る
+   * @param {Number} n カード番号
+   * @return {Card} カード情報
+   */
+  peepN(n) {
+    if (this.cs.length < n) return null;
+    return this.cs[n-1];
   }
 
   /**
@@ -106,6 +134,25 @@ module.exports = class Cards {
       const c = from.pickTop();
       this.putOn(c);
     }
+  }
+
+  /**
+   * このデッキをコピー
+   * @return {Cards} このデッキのコピー
+   */
+  copy() {
+    return new Cards(this.cs.concat());
+  }
+
+  /**
+   * デッキ内の特定カードを抽出する。
+   * 条件外のカードは廃棄される
+   * @param {Function} f 条件
+   * @return {Cards} このオブジェクト
+   */
+  filter(f) {
+    this.cs = this.cs.filter(f);
+    return this;
   }
 
   /**

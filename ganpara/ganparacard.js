@@ -18,6 +18,21 @@ module.exports = class card {
     this.cost = cardStatus.cost;
     this.text = cardStatus.text;
     this.back = cardStatus.back ? cardStatus.back : null;
+    this.isLife = !!cardStatus.isLife;
+  }
+
+  /**
+   * このカードをソートするための関数
+   * @param {card} a
+   * @param {card} b
+   * @return {Number}
+   */
+  static conpare(a, b) {
+    const stra = a.toString();
+    const strb = b.toString();
+    if (stra<strb) return -1;
+    if (stra>strb) return 1;
+    return 0;
   }
 
   /**
@@ -43,5 +58,4 @@ module.exports = class card {
   toString() {
     return `【${this.kind}】【${this.nameE}】 (${this.cost})`;
   }
-
 };
