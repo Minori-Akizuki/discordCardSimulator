@@ -6,11 +6,13 @@ module.exports = class player {
   /**
      * @constructor
      * @param {String} name プレイヤー名
+     * @param {String} id ユニーク番号
      * @param {IMessenger} messengerOwn 自身への通知先
      * @param {IMessenger} messengerGloval 全体通知先
      */
-  constructor(name, messengerOwn, messengerGloval) {
+  constructor(name, id, messengerOwn, messengerGloval) {
     this.name = name;
+    this.id = id;
     this.messengerGloval = messengerGloval;
     this.messengerOwn = messengerOwn;
     this.life = new Cards();

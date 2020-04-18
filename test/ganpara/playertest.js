@@ -13,6 +13,7 @@ const ganparacard = {
   porno: new GCard({nameE: 'PORNO', nameJ: 'ポルノ', kind: 'CONTRABAND CARD', cost: '2', text: '【摘発対象】【制限1】【公開1】MONEY2枚を拾う、手に入れたターンは使用できない', back: 'PORNO'}),
 };
 const pname = 'Caralina';
+const id = '1234';
 const getSimpleCards5 = function() {
   return simpleCards5.concat();
 };
@@ -22,7 +23,7 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('コンストラクタ', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     expect(p.name).toEqual(pname);
     expect(p.life).toBeInstanceOf(Cards);
     expect(p.hand).toBeInstanceOf(Cards);
@@ -36,7 +37,7 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('カードを受けとる', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     p.addToHand(getSimpleCards5());
     expect(p.hand.cs).toEqual(expect.arrayContaining([1, 2, 3, 4, 5]));
     expect(p.hand.cs).toHaveLength(getSimpleCards5().length);
@@ -45,7 +46,7 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('手札表示', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     p.addToHand(getSimpleCards5());
     p.life = redLife;
     p.printHandWithLife();
@@ -55,7 +56,7 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('カードを置く', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     p.addToHand(getSimpleCards5());
     p.putCardFront(2);
     expect(p.hand.cs).toEqual([5, 3, 2, 1]);
@@ -65,7 +66,7 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('正面のカードを戻す', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     p.addToHand(getSimpleCards5());
     p.putCardFront(2);
     p.putCardFront(2);
@@ -77,7 +78,7 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('手札からカードを捨てる(普通のカード)', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     const m = new Cards();
     p.life.putOn(ganparacard.redlife);
     p.addToHand([ganparacard.gangster]);
@@ -90,7 +91,7 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('手札からカードを捨てる(ライフ)', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     const m = new Cards();
     p.addToHand([ganparacard.redlife]);
     expect(p.handNum()).toEqual(1);
@@ -103,7 +104,7 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('手札のライフを分ける', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     p.addToHand([ganparacard.redlife]);
     p.addToHand([ganparacard.gangster]);
 
@@ -119,7 +120,7 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('1枚公開する', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     p.addToHand(getSimpleCards5());
     p.openHand(3);
     expect(p.messengerGloval.send.calledOnceWith('3')).toEqual(true);
@@ -128,7 +129,7 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('手札をLIFE以外全て表示', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     p.addToHand(getSimpleCards5());
     p.openHandAll();
     expect(
@@ -139,9 +140,9 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('ワンモアドロー処理', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     const m = new Cards();
-    const d = new Cards([ganparacard.gangster, ganparacard.gangster])
+    const d = new Cards([ganparacard.gangster, ganparacard.gangster]);
 
     p.oneMoreDraw(d, m);
 
@@ -153,7 +154,7 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('確認X(手札以下)', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     const t = new GPlayer('target', messengerLocal, messengerGloval);
     t.hand = new Cards([ganparacard.gangster, ganparacard.money]);
     t.life = new Cards([ganparacard.redlife]);
@@ -168,8 +169,8 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('確認X(特にライフが含まれることの確認)', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
-    const t = new GPlayer('target', messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
+    const t = new GPlayer('target', '0000', messengerLocal, messengerGloval);
     t.hand = new Cards();
     t.life = new Cards([ganparacard.redlife]);
 
@@ -181,8 +182,8 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('確認X(手札以上)', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
-    const t = new GPlayer('target', messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
+    const t = new GPlayer('target', '0000', messengerLocal, messengerGloval);
     t.hand = new Cards([ganparacard.gangster, ganparacard.money]);
     t.life = new Cards([ganparacard.redlife]);
 
@@ -194,8 +195,8 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('確認X(バックのあるカード)', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
-    const t = new GPlayer('target', messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
+    const t = new GPlayer('target', '0000', messengerLocal, messengerGloval);
     t.hand = new Cards([ganparacard.porno]);
     t.life = new Cards([ganparacard.redlife]);
 
@@ -208,8 +209,8 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('奪取X(機能確認)', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
-    const t = new GPlayer('target', messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
+    const t = new GPlayer('target', '0000', messengerLocal, messengerGloval);
     t.hand = new Cards([ganparacard.gangster, ganparacard.money]);
     t.life = new Cards([ganparacard.redlife]);
 
@@ -223,8 +224,8 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('奪取X(枚数以上)', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
-    const t = new GPlayer('target', messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
+    const t = new GPlayer('target', '0000', messengerLocal, messengerGloval);
     t.hand = new Cards([ganparacard.gangster, ganparacard.money]);
     t.life = new Cards([ganparacard.redlife]);
 
@@ -237,8 +238,8 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('奪取X(バックのあるカード)', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
-    const t = new GPlayer('target', messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
+    const t = new GPlayer('target', '0000', messengerLocal, messengerGloval);
     t.hand = new Cards([ganparacard.gangster, ganparacard.porno]);
     t.life = new Cards([ganparacard.redlife]);
 
@@ -251,8 +252,8 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('即死X(機能確認)', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
-    const t = new GPlayer('target', messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
+    const t = new GPlayer('target', '0000', messengerLocal, messengerGloval);
     t.hand = new Cards([ganparacard.gangster, ganparacard.money]);
     t.life = new Cards([ganparacard.redlife]);
     const m = new Cards();
@@ -269,8 +270,8 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('即死X(超過した枚数)', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
-    const t = new GPlayer('target', messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
+    const t = new GPlayer('target', '0000', messengerLocal, messengerGloval);
     t.hand = new Cards([ganparacard.gangster, ganparacard.money]);
     t.life = new Cards([ganparacard.redlife]);
     const m = new Cards();
@@ -287,8 +288,8 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('即死X(バックのあるカード)', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
-    const t = new GPlayer('target', messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
+    const t = new GPlayer('target', '0000', messengerLocal, messengerGloval);
     t.hand = new Cards([ganparacard.gangster, ganparacard.porno]);
     t.life = new Cards([ganparacard.redlife]);
     const m = new Cards();
@@ -305,7 +306,7 @@ describe('クラス機能チェック(GPlayer)', function() {
   it('toString', function() {
     const messengerGloval = {send: sinon.spy()};
     const messengerLocal = {send: sinon.spy()};
-    const p = new GPlayer(pname, messengerLocal, messengerGloval);
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     p.life.putOn('REDLIFE');
     p.hand = new Cards([1, 2, 3, 4, 5]);
     p.front = new Cards([6, 7]);

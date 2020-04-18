@@ -9,14 +9,24 @@ module.exports = class extends Command {
     // コマンドのオプション: https://klasa.js.org/#/docs/klasa/master/typedef/CommandOptions
     super(...args, {
       description: 'ゲームにエントリー',
-      usage: '<name:string>',
+      usage: '[name:string]',
+      aliases: ['et'],
     });
+    this.game = this.client.providers.get('ganparaGame');
   }
 
   /**
-   * @param {*} message
+   * @param {Message} message
    */
-  async run(message, [str]) {
-    return message.sendMessage(str);
+  async run(message, [playerName]) {
+    const name = playerName ? playerName : message.author.username;
+    const res = this.game.entryRoom(message, name);
+    if (res) {
+      return message.sendMessage(`${name}(${message.author})の参加をうけつけました`);
+    }
+    if (res === false) {
+      return message.sendMessage('すでにエントリーしています。');
+    }
+    return message.sendMessage('部屋が作成されていません。');
   }
 };

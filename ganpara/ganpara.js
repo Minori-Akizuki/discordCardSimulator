@@ -20,6 +20,16 @@ module.exports = class ganpara {
   }
 
   /**
+   * IDからプレイヤーを返す
+   * @param {String} id id
+   * @return {GPlayer} プレイヤー
+   */
+  playerFromId(id) {
+    const index = this.players.findIndex((x)=>x.id==id);
+    if (index == -1) return -1;
+    return this.players[index];
+  }
+  /**
    * カードを名前指定で抜きとる
    * @param {Cards} cards 対象のデッキ
    * @param {String} nameE カード名
@@ -72,6 +82,7 @@ module.exports = class ganpara {
     const deck = new Cards(_deck.map((x)=> new GCard(x)));
 
     // count player
+    console.log(players);
     this.playerNum = players.length;
     // setup life
     lifesOpt.shaffle();
@@ -93,7 +104,7 @@ module.exports = class ganpara {
     // 余ったらデッキにもどるやつ
     for (const d of [specialists, weapons] ) {
       d.shaffle();
-      this.adjustCard(d, trash, this.playerNum);
+      this.adjustCard(d, deck, this.playerNum);
     }
 
     // 一度デッキをシャッフル
@@ -102,9 +113,7 @@ module.exports = class ganpara {
     // プレイヤーに手札を配る
     this.players = [];
     for (let i=0; i<this.playerNum; i++) {
-      this.players.push(new GPlayer(players.name, players.messenger, this.messengreGloval));
-      this.players[i].name = players[i].name;
-      this.players[i].hand = new Cards();
+      this.players.push(new GPlayer(players[i].name, players[i].id, players[i].messenger, this.messengreGloval));
       for (const d of [bullets, gangsters, moneys, specialists, weapons, deck]) {
         this.players[i].hand.drawFrom(d, 1);
       }
@@ -118,8 +127,9 @@ module.exports = class ganpara {
     this.players = this.rnd.shaffle(this.players);
 
     // 初期場の開示
+    this.deck = deck;
     this.market = startMarket;
-    startMarket.drawFrom(deck, 3);
+    startMarket.drawFrom(this.deck, 3);
     this.inited = true;
     console.log(this.toString());
   }
@@ -153,6 +163,6 @@ module.exports = class ganpara {
       return `${x.toString()}`;
     }).join('\n');
     const turnPlayer = `Turn player is ${this.players[this.turnPlayerNum].name}`;
-    return [decknum, market, players, turnPlayer].join('\n');
+    return [decknum, market, players, turnPlayer].join('\n \n');
   }
 };

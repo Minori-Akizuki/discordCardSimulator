@@ -9,20 +9,26 @@ module.exports = class extends Command {
     // コマンドのオプション: https://klasa.js.org/#/docs/klasa/master/typedef/CommandOptions
     super(...args, {
       description: '部屋を作成',
-      usage: '[roomName:string]',
+      usage: '',
+      runIn: ['text', 'group'],
     });
-    // this.room = this.client.providers.get('ganparaGame');
+    this.game = this.client.providers.get('ganparaGame');
   }
 
   /**
-   * @param {*} message
+   * @param {Message} message
    */
-  async run(message, [roomName]) {
+  async run(message) {
+    const serverId = message.guild ? message.guild.id : null;
     const serverName = message.guild;
-    if (!serverName && !roomName) {
-      return message.sendMessage('DMから部屋を作成する場合は roomname が必須です');
-    }
+    const channnelId = message.channel.id;
+    const channnelName = message.channel;
+    if (!serverName) {
+      return message.sendMessage('DMから部屋は作れません');
+    };
 
-    return message.sendMessage('部屋を作成しました(したとは言ってない)');
+    const room = this.game.makeRoom(message);
+    console.log(room);
+    return message.sendMessage(`${serverName}(${serverId}), ${channnelName}(${channnelId}) で部屋を作りました`);
   }
 };
