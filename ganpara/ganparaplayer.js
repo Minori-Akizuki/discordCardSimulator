@@ -25,6 +25,18 @@ module.exports = class player {
   }
 
   /**
+   * 
+   */
+  checkHand() {
+    this.hand.sort(GCard.conpare);
+    this.front.sort(GCard.conpare);
+    const handS = this.hand.toString();
+    const frontS = this.front.toString();
+    const str = ['==========', '手札', handS, this.life.toString(), '前', frontS.toString()].join('\n');
+    this.messengerOwn.send(str);
+  }
+
+  /**
    * 手札枚数
    * @return {Number}
    */
@@ -58,6 +70,7 @@ module.exports = class player {
     const c = this.hand.pick(n);
     this.front.putOn(c);
     this.messengerGloval.send(`${this.name}が${c.toString()}を置きました`);
+    this.checkHand();
   }
 
   /**
@@ -68,6 +81,7 @@ module.exports = class player {
     const c = this.front.pick(n);
     this.hand.putOn(c);
     this.messengerGloval.send(`${this.name}が前においてある${c.toString()}を拾いました`);
+    this.checkHand();
   }
 
   /**
@@ -79,6 +93,7 @@ module.exports = class player {
     const c = m.pick(n);
     this.hand.putOn(c);
     this.messengerGloval.send(`${this.name}が場から${c.toString()}を拾いました`);
+    this.checkHand();
   }
 
   /**
@@ -88,7 +103,6 @@ module.exports = class player {
    */
   trashHand(n, market) {
     const c = this.hand.pick(n);
-    console.log(c);
     if (!c) return;
     if (c.isLife) {
       this.front.putOn(c);
@@ -96,8 +110,9 @@ module.exports = class player {
     } else {
       market.putOn(c);
       market.sort(GCard.conpare);
-      this.messengerGloval.send(`${c.toString()}が場にました`);
+      this.messengerGloval.send(`${c.toString()}が場に捨てられました`);
     }
+    this.checkHand();
   }
 
   /**
@@ -108,6 +123,7 @@ module.exports = class player {
     this.front.putOn(l);
     this.isLive = false;
     this.messengerGloval.send(`${l.toString()}が捨てられ公開されました`);
+    this.checkHand();
   }
 
   /**
@@ -189,6 +205,8 @@ module.exports = class player {
     this.messengerGloval.send(`${this.name}が${target.name}にカードを渡しました`);
     this.messengerOwn.send(`${target.name}に${c.toString()}を渡しました`);
     target.messengerOwn.send(`${this.name}から${c.toString()}を貰いました`);
+    target.checkHand();
+    this.checkHand();
   }
   /**
    * カードを引く
@@ -199,7 +217,7 @@ module.exports = class player {
     this.addToHand([c]);
     this.sortHand();
     this.messengerGloval.send(`${this.name}がカードを引きました`);
-    this.messengerOwn.send(this.hand.toString());
+    this.checkHand();
   }
 
   /**
@@ -284,8 +302,8 @@ module.exports = class player {
     }
     this.messengerOwn.send(`です`)
     player.messengerOwn.send(`です`)
-    player.sortHand();
-    this.sortHand();
+    player.checkHand();
+    this.checkHand();
   }
 
   /**
@@ -307,6 +325,7 @@ module.exports = class player {
       }
     }
     player.divideLife();
+    player.checkHand();
   }
 
   /**

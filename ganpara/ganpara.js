@@ -77,7 +77,7 @@ module.exports = class ganpara {
    * @param {Number} number 目標枚数
    */
   adjustCard(deckFrom, deckTo, number) {
-    deckTo.drawFrom(deckFrom, deckFrom.number - number);
+    deckTo.drawFrom(deckFrom, deckFrom.number() - number);
   }
 
   /**
@@ -112,7 +112,6 @@ module.exports = class ganpara {
     const deck = new Cards(_deck.map((x)=> new GCard(x)));
 
     // count player
-    console.log(players);
     this.playerNum = players.length;
     // setup life
     lifesOpt.shaffle();
@@ -124,6 +123,7 @@ module.exports = class ganpara {
     // これだけ(弾丸の)カードを抜いてからシャッフルする
     this.adjustCard(bullets, trash, this.playerNum);
     bullets.shaffle();
+
 
     // 余ったら除けられるやつ
     for (const d of [gangsters, moneys]) {
@@ -163,7 +163,7 @@ module.exports = class ganpara {
 
     // 手札の通知
     this.players.forEach(function(p) {
-      p.messengerOwn.send(p.hand.toString());
+      p.checkHand();
     });
   }
 
@@ -183,9 +183,10 @@ module.exports = class ganpara {
       this.roundNum++;
     }
     this.messengerGloval.send(`${this.roundNum}ラウンド目、ターンプレイヤーは${this.turnPlayer().name}です。`);
-    if (this.roundNum == 0 && this.turnPlayerNum == (this.turnPlayerNum + this.playerNum - 1)%this.playerNum) {
+    if (this.roundNum == 0 && this.turnPlayerNum == (this.startPlayer + this.playerNum - 1)%this.playerNum) {
       this.messengerGloval.send('** 喪が明けました! **');
     }
+    this.messengerGloval.send(this.toString());
   }
 
   /**

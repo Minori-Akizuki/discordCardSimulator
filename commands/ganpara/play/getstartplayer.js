@@ -24,9 +24,9 @@ module.exports = class extends Command {
     if (!this.game.isStartedGame(message)) {
       return message.sendMessage(this.game.message.NO_STARTED_GAME);
     }
-    const game = this.game.returnRoom(message);
+    const game = this.game.returnRoom(message).game;
     const id = message.author.id;
     game.setStartPlayerFromId(id);
-    return message(`スタートプレイヤーが${game.playerFromId(id).name}になりました`);
+    return message.sendMessage(`スタートプレイヤーが${game.playerFromId(id).name}になりました`);
   }
 };

@@ -15,10 +15,10 @@ const messenger = function(name) {
 const players = [
   {name: 'MoneyJ', messenger: messenger('MoneyJ'), id: '1'},
   {name: 'Dayday', messenger: messenger('Dayday'), id: '2'},
-  {name: 'Caralina', messenger: messenger('Caralina'), id: '3'},
-  {name: 'Maria', messenger: messenger('Maria'), id: '4'},
-  {name: 'Drop', messenger: messenger('Drop'), id: '5'},
-  {name: 'Kirisato', messenger: messenger('Kirisato'), id: '6'},
+//  {name: 'Caralina', messenger: messenger('Caralina'), id: '3'},
+//  {name: 'Maria', messenger: messenger('Maria'), id: '4'},
+//  {name: 'Drop', messenger: messenger('Drop'), id: '5'},
+//  {name: 'Kirisato', messenger: messenger('Kirisato'), id: '6'},
 ];
 
 describe('クラス機能チェック(ganpara)', function() {
@@ -33,6 +33,6 @@ describe('クラス機能チェック(ganpara)', function() {
         deck.deck,
     );
     gp.roundTurn();
-    console.log(gp.playerFromId('3').toString());
+    console.log(gp.playerFromId('1').toString());
   });
 });

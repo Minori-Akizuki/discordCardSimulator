@@ -30,6 +30,7 @@ module.exports = class extends Command {
     const player = game.playerFromId(message.author.id);
     const market = game.market;
     player.trashHand(number, market);
+    message.sendMessage(market.toString);
     return;
   }
 };

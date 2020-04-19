@@ -99,7 +99,6 @@ module.exports = class extends Provider {
       return 'ルームが作られていません';
     }
     const players = '参加者 : ' + room.entryies.map((p)=>p.name).join(', ');
-    console.log(room.isStarted);
     const started = '状態 : ' + (room.isStarted ? 'ゲーム中' : '未開始');
     const gameStatus = room.game.toString();
     return [players, started, gameStatus].join('\n');

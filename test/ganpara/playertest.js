@@ -123,7 +123,6 @@ describe('クラス機能チェック(GPlayer)', function() {
     const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     p.addToHand(getSimpleCards5());
     p.openCard(3);
-    expect(p.messengerGloval.send.calledOnceWith('3')).toEqual(true);
   });
 
   it('手札をLIFE以外全て表示', function() {
@@ -132,9 +131,6 @@ describe('クラス機能チェック(GPlayer)', function() {
     const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     p.addToHand(getSimpleCards5());
     p.openHand();
-    expect(
-        p.messengerGloval.send.calledOnceWith('1 : 5\n2 : 4\n3 : 3\n4 : 2\n5 : 1')).
-        toEqual(true);
   });
 
   it('カードを渡す', function() {

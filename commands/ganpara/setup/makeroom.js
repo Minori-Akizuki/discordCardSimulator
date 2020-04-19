@@ -29,7 +29,6 @@ module.exports = class extends Command {
     };
 
     const room = this.game.makeRoom(message);
-    console.log(room);
     return message.sendMessage(`${serverName}(${serverId}), ${channnelName}(${channnelId}) で部屋を作りました`);
   }
 };
