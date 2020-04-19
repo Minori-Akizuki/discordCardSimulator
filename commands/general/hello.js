@@ -16,6 +16,7 @@ module.exports = class extends Command {
    * @param {*} message
    */
   async run(message, [name]) {
+    // const hs = new ReactionHandler('hogehoge', (m)=>m.author==message.author, {prompt: 'waiting...'}, null, []);
     return message.sendMessage(`ここは${message.guild}です！`);
   }
 };

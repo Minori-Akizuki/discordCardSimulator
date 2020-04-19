@@ -8,10 +8,10 @@ module.exports = class extends Command {
   constructor(...args) {
     // コマンドのオプション: https://klasa.js.org/#/docs/klasa/master/typedef/CommandOptions
     super(...args, {
-      description: '部屋の状態を表示(rs)',
+      description: 'カードをドロー(dr)',
       usage: '',
       runIn: ['text', 'group'],
-      aliases: ['rs'],
+      aliases: ['dr'],
     });
     this.game = this.client.providers.get('ganparaGame');
   }
@@ -20,7 +20,12 @@ module.exports = class extends Command {
    * @param {Message} message
    */
   async run(message) {
-    const status = this.game.status(message);
-    return message.sendMessage(status);
+    if (!this.game.isStartedGame(message)) {
+      return message.sendMessage(this.game.message.NO_STARTED_GAME);
+    }
+    const game = this.game.returnRoom(message).game;
+    const player = game.playerFromId(message.author.id);
+    player.drawACard(game.deck);
+    return;
   }
 };

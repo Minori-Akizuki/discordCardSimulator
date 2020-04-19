@@ -14,6 +14,7 @@ module.exports = class ganpara {
     this.playerNum = null;
     this.players = [];
     this.turnPlayerNum = 0;
+    this.roundNum = 1;
     this.market = new Cards();
     this.deck = new Cards();
     this.inited = false;
@@ -28,6 +29,23 @@ module.exports = class ganpara {
     const index = this.players.findIndex((x)=>x.id==id);
     if (index == -1) return -1;
     return this.players[index];
+  }
+
+  /**
+   * プレイヤー番号からプレイヤーを返す
+   * @param {Number} number
+   * @return {GPayer} player
+   */
+  playerFromNumber(number) {
+    return players[index-1];
+  }
+
+  /**
+   * ターンプレイヤーを返す
+   * @return {GPlayer} turn player
+   */
+  turnPlayer() {
+    return players[this.turnPlayerNum];
   }
 
   /**
@@ -151,7 +169,13 @@ module.exports = class ganpara {
    */
   roundTurn() {
     this.turnPlayerNum = ++this.turnPlayerNum % this.playerNum;
-    this.messengerGloval.send(`ターンプレイヤーは${this.turnPlayer().name}です。`);
+    if (this.turnPlayerNum == 0) {
+      this.roundNum++;
+    }
+    this.messengerGloval.send(`${this.roundNum}ラウンド目、ターンプレイヤーは${this.turnPlayer().name}です。`);
+    if (this.roundNum == 0 && this.turnPlayerNum == this.playerNum-1) {
+      this.messengerGloval.send('** 喪が明けました! **');
+    }
   }
 
   /**
@@ -162,12 +186,15 @@ module.exports = class ganpara {
     if (!this.inited) {
       return 'not inited';
     }
+    const round = `--- ${this.roundNum} ターン目 ---`;
     const decknum = '* deck : ' + this.deck.number();
     const market = '* market :\n' + this.market.toString();
-    const players = this.players.map((x)=>{
-      return `${x.toString()}`;
-    }).join('\n');
+    const _players = [];
+    this.players.forEach(function(p, i) {
+      _players.push(`${i} : ${p.toString()}`);
+    });
+    const players = _players.join('\n');
     const turnPlayer = `Turn player is ${this.players[this.turnPlayerNum].name}`;
-    return [decknum, market, players, turnPlayer].join('\n \n');
+    return [round, decknum, market, players, turnPlayer].join('\n \n');
   }
 };

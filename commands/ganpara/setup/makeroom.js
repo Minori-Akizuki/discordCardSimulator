@@ -11,6 +11,7 @@ module.exports = class extends Command {
       description: '部屋を作成',
       usage: '',
       runIn: ['text', 'group'],
+      aliases: ['mkr'],
     });
     this.game = this.client.providers.get('ganparaGame');
   }

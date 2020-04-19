@@ -168,9 +168,10 @@ module.exports = class player {
     d.putOn(m);
     d.shaffle();
     m.drawFrom(d, 5);
-    m.sort(GCard.compare());
-    messengerGloval.send('場札 : ');
-    messengerGloval.send(m.toString);
+    m.sort(GCard.conpare);
+    this.messengerGloval.send(`${this.name}が場のリセットを行いました。`);
+    this.messengerGloval.send('場札 : ');
+    this.messengerGloval.send(m.toString());
   }
 
   /**

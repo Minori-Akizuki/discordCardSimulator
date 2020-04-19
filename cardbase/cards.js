@@ -40,7 +40,7 @@ module.exports = class Cards {
      */
   sort(sortOf) {
     if (!sortOf) return;
-    this.cs.sortOf(sortOf);
+    this.cs.sort(sortOf);
   }
   /**
      * 上から1枚引く

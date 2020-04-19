@@ -8,8 +8,9 @@ module.exports = class extends Command {
   constructor(...args) {
     // コマンドのオプション: https://klasa.js.org/#/docs/klasa/master/typedef/CommandOptions
     super(...args, {
-      description: 'ゲームにエントリー',
+      description: 'ゲームにエントリー(et)',
       usage: '[name:string]',
+      runIn: ['text', 'group'],
       aliases: ['et'],
     });
     this.game = this.client.providers.get('ganparaGame');

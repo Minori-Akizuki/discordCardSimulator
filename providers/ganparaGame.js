@@ -68,6 +68,16 @@ module.exports = class extends Provider {
   }
 
   /**
+   * ルームを消去する
+   * @param {KlarsaMessage} message 
+   */
+  destroyRoom(message) {
+    const roomId = this.returnRoomId(message);
+    this.rooms[roomId] = null;
+    return;
+  }
+
+  /**
    * 部屋の状態を表示
    * @param {KlasaMessage} message メッセージ
    * @return {String} 部屋の状態

@@ -21,6 +21,7 @@ module.exports = class extends Command {
   async run(message) {
     this.game.startGame(message);
     message.sendMessage('ゲームが開始されました。');
+    this.client.user.setActivity('ゲーム中です', {type: 'LISTENING'});
     message.sendMessage(this.game.returnRoom(message).game.toString());
   }
 };
