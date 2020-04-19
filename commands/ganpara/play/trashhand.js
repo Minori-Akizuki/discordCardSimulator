@@ -9,7 +9,8 @@ module.exports = class extends Command {
     // コマンドのオプション: https://klasa.js.org/#/docs/klasa/master/typedef/CommandOptions
     super(...args, {
       description: 'カードを捨てる(th,tr)',
-      usage: '<number:number>',
+      usage: '<number:number> [...]',
+      usageDelim: ' ',
       runIn: ['text', 'group'],
       aliases: ['th', 'tr'],
     });
@@ -19,18 +20,15 @@ module.exports = class extends Command {
   /**
    * @param {Message} message
    */
-  async run(message, [number]) {
+  async run(message, [...numbers]) {
     if (!this.game.isStartedGame(message)) {
       return message.sendMessage(this.game.message.NO_STARTED_GAME);
-    }
-    if (!number) {
-      return message.sendMessage('手札番号を指定してください');
     }
     const game = this.game.returnRoom(message).game;
     const player = game.playerFromId(message.author.id);
     const market = game.market;
-    player.trashHand(number, market);
-    message.sendMessage(market.toString);
+    player.trashHands(market, ...numbers);
+    message.sendMessage(market.toString());
     return;
   }
 };

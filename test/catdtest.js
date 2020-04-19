@@ -54,6 +54,13 @@ describe('クラス機能チェック(Card)', function() {
     expect(deck.cs).toEqual([1, 2, 3, 4, 6, 7, 8, 9, 10]);
   });
 
+  it('抜く(いくつか)', function() {
+    const deck = new Cards(getSortedSimpleCards());
+    const cs = deck.picks(2, 3);
+    expect(cs.cs).toEqual([2, 3]);
+    expect(deck.cs).toEqual([1, 4, 5, 6, 7, 8, 9, 10]);
+  });
+
   it('トップに戻す', function() {
     const deck = new Cards(getSortedSimpleCards());
     deck.putOn(99);
@@ -130,6 +137,20 @@ describe('クラス機能チェック(Card)', function() {
     const c = deck.peep(10);
     // ピーピング結果が全て
     expect(c).toEqual(simpleCards);
+    // 内容量がかわらない
+    expect(deck.cs).toHaveLength(simpleCards.length);
+    // 元の内容が全て含まれている
+    expect(deck.cs).toEqual(expect.arrayContaining(simpleCards));
+  });
+
+  it('デッキ内指定ピープ(1,3,5)', function() {
+    const deck = new Cards(getSortedSimpleCards());
+
+    // 11枚ピーピング
+    const cs = deck.peeps(1,3,5);
+
+    // 指定番号のピープができているできている
+    expect(cs.cs).toEqual([1, 3, 5]);
     // 内容量がかわらない
     expect(deck.cs).toHaveLength(simpleCards.length);
     // 元の内容が全て含まれている

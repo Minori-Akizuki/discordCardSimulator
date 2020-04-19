@@ -59,7 +59,7 @@ describe('クラス機能チェック(GPlayer)', function() {
     const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     p.addToHand(getSimpleCards5());
     p.putCardFront(2);
-    expect(p.hand.cs).toEqual([5, 3, 2, 1]);
+    expect(p.hand.cs).toEqual([1, 2, 3, 5]);
     expect(p.front.cs).toEqual([4]);
   });
 
@@ -71,7 +71,7 @@ describe('クラス機能チェック(GPlayer)', function() {
     p.putCardFront(2);
     p.putCardFront(2);
     p.pickCardFront(1);
-    expect(p.hand.cs).toEqual([3, 5, 2, 1]);
+    expect(p.hand.cs).toEqual([1, 2, 3, 5]);
     expect(p.front.cs).toEqual([4]);
   });
 
@@ -142,7 +142,7 @@ describe('クラス機能チェック(GPlayer)', function() {
     p.addToHand(getSimpleCards5());
     p.passACard(t, 3);
 
-    expect(p.hand.cs).toEqual([5, 4, 2, 1]);
+    expect(p.hand.cs).toEqual([1, 2, 4, 5]);
     expect(t.hand.cs).toEqual([3]);
   });
 
@@ -265,7 +265,7 @@ describe('クラス機能チェック(GPlayer)', function() {
     t.life = new Cards([ganparacard.redlife]);
 
     p.stealX(t, 2);
-
+    console.log(p.hand.toString());
     expect(p.handNum()).toEqual(1);
     expect(t.handNum()).toEqual(2);
   });
@@ -299,7 +299,6 @@ describe('クラス機能チェック(GPlayer)', function() {
 
     p.suddenDeathX(t, 4, m);
 
-    console.log(t.toString());
     expect(p.handNum()).toEqual(0);
     expect(t.handNum()).toEqual(0);
     expect(t.front.number()).toEqual(1);
@@ -317,7 +316,6 @@ describe('クラス機能チェック(GPlayer)', function() {
 
     p.suddenDeathX(t, 3, m);
 
-    console.log(t.toString());
     expect(p.handNum()).toEqual(0);
     expect(t.handNum()).toEqual(1);
     expect(t.front.number()).toEqual(1);

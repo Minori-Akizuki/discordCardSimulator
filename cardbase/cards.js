@@ -52,13 +52,31 @@ module.exports = class Cards {
   }
 
   /**
-     * 任意の位置のカードを抜く
-     * @param {Number} n
-     * @return {[card]}
-     */
+   * 任意の位置のカードを抜く
+   * @param {Number} n
+   * @return {card}
+   */
   pick(n) {
     const cs = this.cs.splice(n-1, 1);
     return cs[0];
+  }
+
+  /**
+   * 複数枚指定してそれらのカードを抜き出す
+   * @param  {...Number} ns
+   * @return {Cards}
+   */
+  picks(...ns) {
+    const _this = this;
+    const ps = [];
+    ns.forEach(function(n) {
+      if (n <= _this.cs.length && _this.cs[n-1]) {
+        ps.push(_this.cs[n-1]);
+        _this.cs[n-1] = null;
+      }
+    });
+    this.cs = this.cs.filter((c)=>!!c);
+    return new Cards(ps);
   }
 
   /**
@@ -111,6 +129,22 @@ module.exports = class Cards {
   peepN(n) {
     if (this.cs.length < n) return null;
     return this.cs[n-1];
+  }
+
+  /**
+   * 複数指定して全てpeepする
+   * @param  {...any} ns 指定番号
+   * @return {Cards}
+   */
+  peeps(...ns) {
+    const _this = this;
+    console.log(ns);
+    const ps = [];
+    ns.forEach(function(n) {
+      console.log(`peep : ${_this.cs[n-1]}`);
+      ps.push(_this.cs[n-1]);
+    });
+    return new Cards(ps);
   }
 
   /**

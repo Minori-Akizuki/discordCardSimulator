@@ -9,7 +9,7 @@ module.exports = class extends Command {
     // コマンドのオプション: https://klasa.js.org/#/docs/klasa/master/typedef/CommandOptions
     super(...args, {
       description: 'n番のカードを対象に公開する、aなら全体に公開する。(opc)',
-      usage: '<n:number> <target:number|a>',
+      usage: '<target:number|a> <n:number> [...]',
       usageDelim: ' ',
       runIn: ['text', 'group'],
       aliases: ['opc'],
@@ -20,7 +20,7 @@ module.exports = class extends Command {
   /**
    * @param {Message} message
    */
-  async run(message, [number, target]) {
+  async run(message, [target, ...ns]) {
     if (!this.game.isStartedGame(message)) {
       return message.sendMessage(this.game.message.NO_STARTED_GAME);
     }
@@ -34,7 +34,7 @@ module.exports = class extends Command {
         message.sendMessage('不正なプレイヤー番号です');
         return;
       }
-      player.openCardTo(targetP, number);
+      player.openCardsTo(targetP, ...ns);
     }
     return;
   }

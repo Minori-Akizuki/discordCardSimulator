@@ -9,7 +9,8 @@ module.exports = class extends Command {
     // コマンドのオプション: https://klasa.js.org/#/docs/klasa/master/typedef/CommandOptions
     super(...args, {
       description: '場からカードを拾う(pim)',
-      usage: '<number:number>',
+      usage: '<number:number> [...]',
+      usageDelim: ' ',
       runIn: ['text', 'group'],
       aliases: ['pim'],
     });
@@ -19,17 +20,14 @@ module.exports = class extends Command {
   /**
    * @param {Message} message
    */
-  async run(message, [number]) {
+  async run(message, [...numbers]) {
     if (!this.game.isStartedGame(message)) {
       return message.sendMessage(this.game.message.NO_STARTED_GAME);
-    }
-    if (!number) {
-      return message.sendMessage('番号を指定してください');
     }
     const game = this.game.returnRoom(message).game;
     const player = game.playerFromId(message.author.id);
     const market = game.market;
-    player.pickCardMarket(number, market);
+    player.pickCardsMarket(market, ...numbers);
     return;
   }
 };
