@@ -180,6 +180,7 @@ module.exports = class player {
    */
   openLife() {
     this.opendLife = this.life.peep(1);
+    this.messengerGloval.send(`${this.name}が${this.opendLife.toString()}を公開しました。`);
     this.isLifeOpened = true;
   }
 
