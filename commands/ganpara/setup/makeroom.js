@@ -8,7 +8,7 @@ module.exports = class extends Command {
   constructor(...args) {
     // コマンドのオプション: https://klasa.js.org/#/docs/klasa/master/typedef/CommandOptions
     super(...args, {
-      description: '部屋を作成',
+      description: '部屋を作成(mkr)',
       usage: '',
       runIn: ['text', 'group'],
       aliases: ['mkr'],

@@ -8,7 +8,7 @@ module.exports = class extends Command {
   constructor(...args) {
     // コマンドのオプション: https://klasa.js.org/#/docs/klasa/master/typedef/CommandOptions
     super(...args, {
-      description: '場のリセットを行う',
+      description: '場のリセットを行う(rsm)',
       usage: '',
       runIn: ['text', 'group'],
       aliases: ['rsm'],
