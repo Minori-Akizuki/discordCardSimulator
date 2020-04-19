@@ -1,4 +1,11 @@
 {
+    "name": "discord_gangster_paradice_simulator",
+    "version": "1.0",
+    "private": true,
+    "author": {
+        "name": "Real Analysis a.k.a. Karaage <dreamnstd@gmail.com> (https://twitter.com/Real_analysis)"
+    },
+    "main": "app.js",
     "directories": {
         "test": "test"
     },
@@ -17,5 +24,9 @@
         "expect": "^25.3.0",
         "istanbul": "^0.4.5",
         "sinon": "^9.0.2"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Minori-Akizuki/discordCardSimulator.git"
     }
 }
