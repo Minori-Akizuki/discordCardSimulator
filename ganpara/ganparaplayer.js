@@ -220,7 +220,16 @@ module.exports = class player {
     this.messengerGloval.send(`${this.name}が${str}を公開しました`);
     return str;
   }
-
+  /**
+   * 手札を複数枚文字列で公開する
+   * @param {Number} n 指定カードナンバー
+   * @return {String} カード文字列
+   */
+  openCards(...ns) {
+    const str = this.hand.peeps(...ns).toString();
+    this.messengerGloval.send(`${this.name}が\n${str}\nを公開しました`);
+    return str;
+  }
   /**
    * 手札を全てターゲットに見せる
    * @param {GPlayer} target 

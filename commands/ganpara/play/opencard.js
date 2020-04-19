@@ -27,7 +27,7 @@ module.exports = class extends Command {
     const game = this.game.returnRoom(message).game;
     const player = game.playerFromId(message.author.id);
     if (target=='a') {
-      player.openCard(number);
+      player.openCards(...ns);
     } else {
       const targetP = game.playerFromNumber(target);
       if (!targetP) {
