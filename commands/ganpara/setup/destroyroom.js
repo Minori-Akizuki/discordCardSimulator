@@ -11,6 +11,7 @@ module.exports = class extends Command {
       description: '部屋を削除',
       usage: '',
       runIn: ['text', 'group'],
+      aliases: ['dstrr'],
     });
     this.game = this.client.providers.get('ganparaGame');
   }
@@ -19,7 +20,8 @@ module.exports = class extends Command {
    * @param {Message} message
    */
   async run(message) {
+    console.log('room destroy');
     this.game.destroyRoom(message);
-    return message.sendMessage(`${serverName}(${serverId}), ${channnelName}(${channnelId}) の部屋を消去しました。`);
+    return message.sendMessage(`部屋を消去しました。`);
   }
 };

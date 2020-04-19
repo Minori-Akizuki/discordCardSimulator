@@ -7,9 +7,9 @@ const sinon = require('sinon');
 
 const simpleCards5 = [1, 2, 3, 4, 5];
 const ganparacard = {
-  redlife: new GCard( GCards.comsumer.lifesIn[0]),
-  gangster: new GCard( GCards.comsumer.startHands.gangsters[0] ),
-  money: new GCard( GCards.comsumer.startHands.moneys[0] ),
+  redlife: new GCard( GCards.consumer().lifesIn[0]),
+  gangster: new GCard( GCards.consumer().startHands.gangsters[0] ),
+  money: new GCard( GCards.consumer().startHands.moneys[0] ),
   porno: new GCard({nameE: 'PORNO', nameJ: 'ポルノ', kind: 'CONTRABAND CARD', cost: '2', text: '【摘発対象】【制限1】【公開1】MONEY2枚を拾う、手に入れたターンは使用できない', back: 'PORNO'}),
 };
 const pname = 'Caralina';
@@ -122,7 +122,7 @@ describe('クラス機能チェック(GPlayer)', function() {
     const messengerLocal = {send: sinon.spy()};
     const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     p.addToHand(getSimpleCards5());
-    p.openHand(3);
+    p.openCard(3);
     expect(p.messengerGloval.send.calledOnceWith('3')).toEqual(true);
   });
 
@@ -131,10 +131,35 @@ describe('クラス機能チェック(GPlayer)', function() {
     const messengerLocal = {send: sinon.spy()};
     const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     p.addToHand(getSimpleCards5());
-    p.openHandAll();
+    p.openHand();
     expect(
         p.messengerGloval.send.calledOnceWith('1 : 5\n2 : 4\n3 : 3\n4 : 2\n5 : 1')).
         toEqual(true);
+  });
+
+  it('カードを渡す', function() {
+    const messengerGloval = {send: sinon.spy()};
+    const messengerLocal = {send: sinon.spy()};
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
+    const t = new GPlayer('target', '0000', messengerLocal, messengerGloval);
+
+    p.addToHand(getSimpleCards5());
+    p.passACard(t, 3);
+
+    expect(p.hand.cs).toEqual([5, 4, 2, 1]);
+    expect(t.hand.cs).toEqual([3]);
+  });
+
+  it('カードを引く', function() {
+    const messengerGloval = {send: sinon.spy()};
+    const messengerLocal = {send: sinon.spy()};
+    const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
+    const d = new Cards(getSimpleCards5());
+
+    p.drawACard(d);
+
+    expect(d.cs).toEqual([2, 3, 4, 5]);
+    expect(p.hand.cs).toEqual([1]);
   });
 
   it('ワンモアドロー処理', function() {

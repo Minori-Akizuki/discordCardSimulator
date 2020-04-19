@@ -11,7 +11,7 @@ module.exports = class extends Command {
       description: '部屋の状態を表示(rs)',
       usage: '',
       runIn: ['text', 'group'],
-      aliases: ['rs'],
+      aliases: ['rs', 'mk'],
     });
     this.game = this.client.providers.get('ganparaGame');
   }

@@ -1,6 +1,7 @@
 const {Provider} = require('klasa');
 const Ganpara = require('../ganpara/ganpara');
 const deck = require('../ganpara/deck_consumer').consumer();
+const Randomizer = require('../cardbase/randomizer');
 
 module.exports = class extends Provider {
   /**
@@ -10,10 +11,20 @@ module.exports = class extends Provider {
   constructor(...args) {
     super(...args, {name: 'ganparaGame'});
     this.rooms = {};
+    this.rnd = new Randomizer();
     this.message = {
       NO_MAKED_ROOM: '部屋が作られていません',
       NO_STARTED_GAME: 'ゲームがスタートしていません',
     };
+  }
+
+  /**
+   * diceroll
+   * @param {Number} n 
+   * @return {Number}
+   */
+  dice(n) {
+    return this.rnd.dice(n);
   }
 
   /**

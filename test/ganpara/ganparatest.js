@@ -1,7 +1,7 @@
 const Ganpara = require('../../ganpara/ganpara.js');
 const Cards = require('../../cardbase/cards.js');
 const GCard = require('../../ganpara/ganparacard.js');
-const deck = require('../../ganpara/deck_consumer.js').comsumer;
+const deck = require('../../ganpara/deck_consumer.js').consumer();
 
 const expect = require('expect');
 const messenger = function(name) {

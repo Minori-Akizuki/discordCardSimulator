@@ -8,10 +8,10 @@ module.exports = class extends Command {
   constructor(...args) {
     // コマンドのオプション: https://klasa.js.org/#/docs/klasa/master/typedef/CommandOptions
     super(...args, {
-      description: '場のリセットを行う(rsm)',
-      usage: '',
+      description: 'ダイスロール',
+      usage: '<number:number>',
       runIn: ['text', 'group'],
-      aliases: ['rsm'],
+      aliases: ['dr'],
     });
     this.game = this.client.providers.get('ganparaGame');
   }
@@ -19,12 +19,8 @@ module.exports = class extends Command {
   /**
    * @param {Message} message
    */
-  async run(message) {
-    if (!this.game.isStartedGame(message)) {
-      return message.sendMessage(this.game.message.NO_STARTED_GAME);
-    }
-    const game = this.game.returnRoom(message).game;
-    game.playerFromId(message.author.id).resetMarket(game.market, game.deck);
-    return;
+  async run(message, [n]) {
+    const r = this.game.dice(n);
+    return message.sendMessage(`1d${n} : ${r}`);
   }
 };

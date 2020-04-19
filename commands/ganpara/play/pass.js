@@ -8,10 +8,11 @@ module.exports = class extends Command {
   constructor(...args) {
     // コマンドのオプション: https://klasa.js.org/#/docs/klasa/master/typedef/CommandOptions
     super(...args, {
-      description: '手札を自分だけに表示(hd)',
-      usage: '',
+      description: 'n番のカードを対象にわたす(ps)',
+      usage: '<n:number> <target:number>',
+      usageDelim: ' ',
       runIn: ['text', 'group'],
-      aliases: ['hd'],
+      aliases: ['ps'],
     });
     this.game = this.client.providers.get('ganparaGame');
   }
@@ -19,14 +20,15 @@ module.exports = class extends Command {
   /**
    * @param {Message} message
    */
-  async run(message) {
+  async run(message, [number, target]) {
     if (!this.game.isStartedGame(message)) {
       return message.sendMessage(this.game.message.NO_STARTED_GAME);
     }
-    const room = this.game.returnRoom(message);
-    const own = room.game.playerFromId(message.author.id);
-    return message.author.sendMessage(
-        ['手札', own.hand.toString(), own.life.toString(), '前', own.front.toString()].join('\n'),
-    );
+    const game = this.game.returnRoom(message).game;
+    const player = game.playerFromId(message.author.id);
+    const targetP = game.playerFromNumber(target);
+    if (!targetP) message.sendMessage('不正なプレイヤー番号です');
+    player.passACard(targetP, number);
+    return;
   }
 };

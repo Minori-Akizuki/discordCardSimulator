@@ -57,6 +57,7 @@ module.exports = class player {
   putCardFront(n) {
     const c = this.hand.pick(n);
     this.front.putOn(c);
+    this.messengerGloval.send(`${this.name}が${c.toString()}を置きました`);
   }
 
   /**
@@ -66,6 +67,18 @@ module.exports = class player {
   pickCardFront(n) {
     const c = this.front.pick(n);
     this.hand.putOn(c);
+    this.messengerGloval.send(`${this.name}が前においてある${c.toString()}を拾いました`);
+  }
+
+  /**
+   * 場からカードを拾う
+   * @param {Number} n 
+   * @param {Cards} m 
+   */
+  pickCardMarket(n, m) {
+    const c = m.pick(n);
+    this.hand.putOn(c);
+    this.messengerGloval.send(`${this.name}が場から${c.toString()}を拾いました`);
   }
 
   /**
@@ -75,11 +88,15 @@ module.exports = class player {
    */
   trashHand(n, market) {
     const c = this.hand.pick(n);
+    console.log(c);
     if (!c) return;
     if (c.isLife) {
       this.front.putOn(c);
+      this.messengerGloval.send(`${c.toString()}が公開されました`);
     } else {
       market.putOn(c);
+      market.sort(GCard.conpare);
+      this.messengerGloval.send(`${c.toString()}が場にました`);
     }
   }
 
@@ -89,6 +106,8 @@ module.exports = class player {
   trashLife() {
     const l = this.life.pick(1);
     this.front.putOn(l);
+    this.isLive = false;
+    this.messengerGloval.send(`${l.toString()}が捨てられ公開されました`);
   }
 
   /**
@@ -115,13 +134,37 @@ module.exports = class player {
   }
 
   /**
+   * カードをターゲットに見せる
+   * @param {GPlayer} target 
+   * @param {Number} n 
+   * @return {String}
+   */
+  openCardTo(target, n) {
+    const c = this.hand.cs[n-1].toString();
+    this.messengerOwn.send(`${c}を${target.name}に見せました`);
+    target.messengerOwn.send(`${c}を${this.name}から見せられました`);
+    return c;
+  }
+  /**
    * 手札を1枚文字列で公開する
    * @param {Number} n 指定カードナンバー
    * @return {String} カード文字列
    */
-  openHand(n) {
+  openCard(n) {
     const str = this.hand.cs[n-1].toString();
-    this.messengerGloval.send(str);
+    this.messengerGloval.send(`${this.name}が${str}を公開しました`);
+    return str;
+  }
+
+  /**
+   * 手札を全てターゲットに見せる
+   * @param {GPlayer} target 
+   * @return {String}
+   */
+  openHandTo(target) {
+    const str = this.hand.toString();
+    target.messengerOwn.send(`${this.name}が\n${str}\nを見せました`);
+    this.messengerOwn.send(`${target.name}に\n${str}\nを見せました`);
     return str;
   }
 
@@ -129,12 +172,24 @@ module.exports = class player {
    * 手札(LIFE以外)を全て文字列として返す
    * @return {String} カード文字列
    */
-  openHandAll() {
+  openHand() {
     const str = this.hand.toString();
-    this.messengerGloval.send(str);
+    this.messengerGloval.send(`${this.name}が\n${str}\nを見せました`);
     return str;
   }
 
+  /**
+   * 対象にカードを渡す
+   * @param {GPlayer} target 
+   * @param {Number} n 
+   */
+  passACard(target, n) {
+    const c = this.hand.pick(n);
+    target.addToHand([c]);
+    this.messengerGloval.send(`${this.name}が${target.name}にカードを渡しました`);
+    this.messengerOwn.send(`${target.name}に${c.toString()}を渡しました`);
+    target.messengerOwn.send(`${this.name}から${c.toString()}を貰いました`);
+  }
   /**
    * カードを引く
    * @param {Cards} deck デッキ
@@ -186,7 +241,17 @@ module.exports = class player {
     noBack.putOn(player.life.copy());
     noBack.shaffle();
     const peepd = new Cards( noBack.peep(n) );
-    this.messengerOwn.send(peepd.toString());
+    const peepedtxt = peepd.toString();
+    const message =
+      `あなたが${player.name}から確認したカードは\n` +
+       peepedtxt +
+      'です';
+    this.messengerOwn.send(message);
+    const messaget =
+      `あなたが${this.name}から確認されたカードは\n` +
+      peepedtxt +
+      'です';
+    player.messengerOwn.send(messaget);
     return peepd;
   }
 
@@ -203,17 +268,24 @@ module.exports = class player {
     if (noBackNum < n) {
       _n = noBackNum;
     }
+    this.messengerOwn.send(`あなたが${player.name}から奪取したのは`)
+    player.messengerOwn.send(`あなたが${this.name}から奪取されたのは`)
     player.hand.shaffle();
     for (let t=1; t<=_n; ) {
       const c = player.hand.pickTop();
       if (!c.back) {
         this.addToHand([c]);
         t++;
+        this.messengerOwn.send(c.toString());
+        player.messengerOwn.send(c.toString());
       } else {
         player.hand.putUnder([c]);
       }
     }
+    this.messengerOwn.send(`です`)
+    player.messengerOwn.send(`です`)
     player.sortHand();
+    this.sortHand();
   }
 
   /**
@@ -231,7 +303,6 @@ module.exports = class player {
       if (player.hand.peepTop().back) {
         player.hand.putUnder(player.hand.pickTop());
       } else {
-        this.messengerGloval.send(player.hand.peepTop() + 'が捨てられました');
         player.trashHand(1, market);
       }
     }
