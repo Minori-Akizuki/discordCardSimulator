@@ -171,6 +171,20 @@ module.exports = class Cards {
   }
 
   /**
+   * 領域からカードを引く、この時バックのあるカードは一度ボトムに置く。
+   * @param {Cards} from 引くデッキ
+   * @param {Number} n 枚数
+   */
+  drawWithNoBackFrom(from, n) {
+    for (let i=0; i<n; i++) {
+      while (from.peepTop().back) {
+        from.putUnder(from.pickTop());
+      }
+      this.drawFrom(from, 1);
+    }
+  }
+
+  /**
    * このデッキをコピー
    * @return {Cards} このデッキのコピー
    */

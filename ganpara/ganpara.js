@@ -144,12 +144,20 @@ module.exports = class ganpara {
     this.players = [];
     for (let i=0; i<this.playerNum; i++) {
       this.players.push(new GPlayer(players[i].name, players[i].id, players[i].messenger, this.messengerGloval));
-      for (const d of [bullets, gangsters, moneys, specialists, weapons, deck]) {
+
+      // 弾丸、ギャングスター、お金、2スペ、武器を配る
+      for (const d of [bullets, gangsters, moneys, specialists, weapons]) {
         this.players[i].hand.drawFrom(d, 1);
       }
+      // 乱1を配る。デッキトップにバックの無いカードが出るまでシャッフルを続けてから配る。
+      this.players[i].hand.drawWithNoBackFrom(deck, 1);
+
       this.players[i].life.drawFrom(lifesIn, 1);
       this.players[i].sortHand();
     }
+
+    // バックのあるカードがボトムにいるかもしれないのでもう一度デッキをシャッフル
+    deck.shaffle();
 
     // プレイヤーの順番をシャッフル
     this.players = this.rnd.shaffle(this.players);

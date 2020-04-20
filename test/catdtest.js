@@ -173,6 +173,19 @@ describe('クラス機能チェック(Card)', function() {
     expect(deckto.cs).toEqual([1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
   });
 
+  it('バックのあるカードを避けてドロー', function() {
+    const deckfrom = new Cards([
+      {front: 1, back: true},
+      {front: 2},
+    ]);
+    const deckto = new Cards();
+
+    deckto.drawWithNoBackFrom(deckfrom, 1);
+
+    expect(deckto.number()).toEqual(1);
+    expect(deckto.peepTop().back).not.toBeTruthy();
+  });
+
   it('toString', function() {
     const deck = new Cards(['hoge', 'huga']);
     expect(deck.toString()).toEqual('1 : hoge\n2 : huga');
