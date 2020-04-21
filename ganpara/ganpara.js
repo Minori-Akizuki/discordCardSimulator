@@ -43,10 +43,10 @@ module.exports = class ganpara {
 
   /**
    * スタピーを決定する
-   * @param {Number} n 
+   * @param {Number} n
    */
   setStartPlayerFromId(id) {
-    const index = this.players.findIndex((x)=>x.id==id);  
+    const index = this.players.findIndex((x)=>x.id==id);
     this.startPlayer = index;
     this.turnPlayerNum = index;
   }

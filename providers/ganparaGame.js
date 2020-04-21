@@ -20,7 +20,7 @@ module.exports = class extends Provider {
 
   /**
    * diceroll
-   * @param {Number} n 
+   * @param {Number} n
    * @return {Number}
    */
   dice(n) {
@@ -29,7 +29,7 @@ module.exports = class extends Provider {
 
   /**
    * ゲームがその部屋で開始されているかどうかを調べる
-   * @param {KlasaMessage} message 
+   * @param {KlasaMessage} message
    * @return {Boolean} ゲームが開始しているかどうか
    */
   isStartedGame(message) {
@@ -80,7 +80,7 @@ module.exports = class extends Provider {
 
   /**
    * ルームを消去する
-   * @param {KlarsaMessage} message 
+   * @param {KlarsaMessage} message
    */
   destroyRoom(message) {
     const roomId = this.returnRoomId(message);
@@ -141,7 +141,7 @@ module.exports = class extends Provider {
 
   /**
    * ゲームの開始
-   * @param {KlasaMessage} message 
+   * @param {KlasaMessage} message
    */
   startGame(message) {
     const room = this.returnRoom(message);

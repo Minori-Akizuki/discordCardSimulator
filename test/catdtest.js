@@ -147,7 +147,7 @@ describe('クラス機能チェック(Card)', function() {
     const deck = new Cards(getSortedSimpleCards());
 
     // 11枚ピーピング
-    const cs = deck.peeps(1,3,5);
+    const cs = deck.peeps(1, 3, 5);
 
     // 指定番号のピープができているできている
     expect(cs.cs).toEqual([1, 3, 5]);

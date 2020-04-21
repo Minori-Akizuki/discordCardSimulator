@@ -44,5 +44,5 @@ describe('クラス機能チェック(Randomizer)', function() {
     const rnd = new Randomizer();
     const shd = rnd.shaffle(simpleCards);
     console.log(shd);
-  })
+  });
 });

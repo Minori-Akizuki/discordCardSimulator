@@ -25,7 +25,7 @@ module.exports = class player {
   }
 
   /**
-   * 
+   *
    */
   checkHand() {
     this.hand.sort(GCard.conpare);
@@ -86,8 +86,8 @@ module.exports = class player {
 
   /**
    * 場からカードを拾う
-   * @param {Number} n 
-   * @param {Cards} m 
+   * @param {Number} n
+   * @param {Cards} m
    */
   pickCardMarket(n, m) {
     const c = m.pick(n);
@@ -99,7 +99,7 @@ module.exports = class player {
   /**
    * 場からカードを拾う(複数枚)
    * @param {Cards} m マーケット
-   * @param {Number} ns 
+   * @param {Number} ns
    */
   pickCardsMarket(m, ...ns) {
     const c = m.picks(...ns);
@@ -186,8 +186,8 @@ module.exports = class player {
 
   /**
    * カードをターゲットに見せる
-   * @param {GPlayer} target 
-   * @param {Number} n 
+   * @param {GPlayer} target
+   * @param {Number} n
    * @return {String}
    */
   openCardTo(target, n) {
@@ -198,9 +198,9 @@ module.exports = class player {
   }
 
   /**
-   * 
-   * @param {GPlayer} target 
-   * @param  {...Number} ns 
+   *
+   * @param {GPlayer} target
+   * @param  {...Number} ns
    * @return {String}
    */
   openCardsTo(target, ns) {
@@ -233,7 +233,7 @@ module.exports = class player {
   }
   /**
    * 手札を全てターゲットに見せる
-   * @param {GPlayer} target 
+   * @param {GPlayer} target
    * @return {String}
    */
   openHandTo(target) {
@@ -255,8 +255,8 @@ module.exports = class player {
 
   /**
    * 対象にカードを渡す
-   * @param {GPlayer} target 
-   * @param {Number} n 
+   * @param {GPlayer} target
+   * @param {Number} n
    */
   passACard(target, n) {
     const c = this.hand.pick(n);
@@ -268,10 +268,10 @@ module.exports = class player {
     this.checkHand();
   }
 
-    /**
+  /**
    * 対象にカードを渡す(複数枚)
-   * @param {GPlayer} target 
-   * @param {...Number} ns 
+   * @param {GPlayer} target
+   * @param {...Number} ns
    */
   passCards(target, ...ns) {
     const cs = this.hand.picks(...ns);
@@ -360,8 +360,8 @@ module.exports = class player {
     if (noBackNum < n) {
       _n = noBackNum;
     }
-    this.messengerOwn.send(`あなたが${player.name}から奪取したのは`)
-    player.messengerOwn.send(`あなたが${this.name}から奪取されたのは`)
+    this.messengerOwn.send(`あなたが${player.name}から奪取したのは`);
+    player.messengerOwn.send(`あなたが${this.name}から奪取されたのは`);
     player.hand.shaffle();
     for (let t=1; t<=_n; ) {
       const c = player.hand.pickTop();
@@ -374,8 +374,8 @@ module.exports = class player {
         player.hand.putUnder([c]);
       }
     }
-    this.messengerOwn.send(`です`)
-    player.messengerOwn.send(`です`)
+    this.messengerOwn.send(`です`);
+    player.messengerOwn.send(`です`);
     player.checkHand();
     this.checkHand();
   }
