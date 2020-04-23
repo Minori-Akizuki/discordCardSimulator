@@ -171,7 +171,7 @@ module.exports = class ganpara {
 
     // 手札の通知
     this.players.forEach(function(p) {
-      p.checkHand();
+      p.sortHand();
     });
   }
 

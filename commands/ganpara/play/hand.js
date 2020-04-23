@@ -25,6 +25,7 @@ module.exports = class extends Command {
     }
     const room = this.game.returnRoom(message);
     const own = room.game.playerFromId(message.author.id);
+    own.sortHand();
     return message.author.sendMessage(
         ['手札', own.hand.toString(), own.life.toString(), '前', own.front.toString()].join('\n'),
     );
