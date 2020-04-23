@@ -207,6 +207,7 @@ module.exports = class ganpara {
     }
     const round = `--- ${this.roundNum} ラウンド目 ---`;
     const decknum = '* deck : ' + this.deck.number();
+    const decktop = '* deckTop : ' + (this.deck.peepTop().back ? this.deck.peepTop().back : '■');
     const market = '* market :\n' + this.market.toString();
     const _players = [];
     this.players.forEach(function(p, i) {
@@ -214,6 +215,6 @@ module.exports = class ganpara {
     });
     const players = _players.join('\n');
     const turnPlayer = `Turn player is ${this.players[this.turnPlayerNum].name}`;
-    return [round, decknum, market, players, turnPlayer].join('\n \n');
+    return [round, decknum, decktop, market, players, turnPlayer].join('\n \n');
   }
 };
