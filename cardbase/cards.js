@@ -138,10 +138,8 @@ module.exports = class Cards {
    */
   peeps(...ns) {
     const _this = this;
-    console.log(ns);
     const ps = [];
     ns.forEach(function(n) {
-      console.log(`peep : ${_this.cs[n-1]}`);
       ps.push(_this.cs[n-1]);
     });
     return new Cards(ps);

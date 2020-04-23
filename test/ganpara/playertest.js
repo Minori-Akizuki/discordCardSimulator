@@ -59,6 +59,7 @@ describe('クラス機能チェック(GPlayer)', function() {
     const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     p.addToHand(getSimpleCards5());
     p.putCardFront(2);
+    p.sortHand();
     expect(p.hand.cs).toEqual([1, 2, 3, 5]);
     expect(p.front.cs).toEqual([4]);
   });
@@ -71,6 +72,7 @@ describe('クラス機能チェック(GPlayer)', function() {
     p.putCardFront(2);
     p.putCardFront(2);
     p.pickCardFront(1);
+    p.sortHand();
     expect(p.hand.cs).toEqual([1, 2, 3, 5]);
     expect(p.front.cs).toEqual([4]);
   });
@@ -141,6 +143,7 @@ describe('クラス機能チェック(GPlayer)', function() {
 
     p.addToHand(getSimpleCards5());
     p.passACard(t, 3);
+    p.sortHand();
 
     expect(p.hand.cs).toEqual([1, 2, 4, 5]);
     expect(t.hand.cs).toEqual([3]);
