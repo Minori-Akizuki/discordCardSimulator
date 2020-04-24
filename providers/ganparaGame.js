@@ -1,6 +1,6 @@
 const {Provider} = require('klasa');
 const Ganpara = require('../ganpara/ganpara');
-const deck = require('../ganpara/deck_consumer').consumer();
+const deck = require('../ganpara/deck');
 const Randomizer = require('../cardbase/randomizer');
 
 module.exports = class extends Provider {
@@ -143,15 +143,12 @@ module.exports = class extends Provider {
    * ゲームの開始
    * @param {KlasaMessage} message
    */
-  startGame(message) {
+  async startGame(message) {
     const room = this.returnRoom(message);
+    const _deck = await deck.consumer();
     room.game.setup(
         room.entryies,
-        deck.lifesIn,
-        deck.lifesOpt,
-        deck.startHands,
-        deck.startMarket,
-        deck.deck,
+        _deck,
     );
     room.isStarted = true;
   }

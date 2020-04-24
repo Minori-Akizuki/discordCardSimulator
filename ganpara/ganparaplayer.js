@@ -31,6 +31,7 @@ module.exports = class player {
     const handS = this.hand.toString();
     const frontS = this.front.toString();
     const str = ['==========', '手札', handS, this.life.toString(), '前', frontS.toString()].join('\n');
+    console.log(str);
     this.messengerOwn.send(str);
   }
 

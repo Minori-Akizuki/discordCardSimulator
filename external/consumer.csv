@@ -1,10 +1,10 @@
 nameE,nameJ,kind,cost,isLife,back,text,deck
-BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,bullet
-BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,bullet
-BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,bullet
-BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,bullet
-BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,bullet
-BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,bullet
+BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,bullets
+BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,bullets
+BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,bullets
+BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,bullets
+BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,bullets
+BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,bullets
 THE BOSS,ボスの座,BOSS CARD,(なし),,,ゲーム開始時に公開すればスタピになれる,bullet
 The Don,死んだはずのボス,BOSS CARD,,,,[通称:THE BOSS] 【制限1】【公開1】場のカードを1枚誰かに渡す,noHands
 CIGAR,タバコ,CONTRABAND CARD,1,,,【摘発対象】【制限1】【公開1】となりの人の許可が得られれば1ドロー,
@@ -12,13 +12,13 @@ PORNO,ポルノ,CONTRABAND CARD,2,,PORNO,【摘発対象】【制限1】【公�
 DRAG,ドラッグ,CONTRABAND CARD,2,,,【摘発対象】【犯行1】【犯歴】行動回数が1増え、あなたの【LIFE】は【摘発対象】になる,
 ALCOHOL,密造酒,CONTRABAND CARD,1,,,【摘発対象】【対応】【使い捨て】誰かの取引を止め、その後もターン中は取引ができなくなる。対象は【身代わり】を捨てる事によりこのカードを無効化できる。,
 DUMDUM BULLET,ダムダム弾,CONTRABAND CARD,1,,,【摘発対象】【弾丸】相手の手札が10枚以上なら追加で[捨札2],
-GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangster
-GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangster
-GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangster
-GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangster
-GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangster
-GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangster
-GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangster
+GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangsters
+GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangsters
+GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangsters
+GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangsters
+GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangsters
+GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangsters
+GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangsters
 GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,
 GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,
 GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,

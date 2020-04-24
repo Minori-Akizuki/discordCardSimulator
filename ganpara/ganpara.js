@@ -15,7 +15,6 @@ const deckKind = {
   NO_HANDS: 'noHands',
 };
 
-
 module.exports = class ganpara {
   /**
    * @constructor
@@ -196,8 +195,9 @@ module.exports = class ganpara {
     this.inited = true;
 
     // 手札の通知
+    console.log(this.players);
     this.players.forEach(function(p) {
-      p.sortHand();
+      p.checkHand();
     });
   }
 
