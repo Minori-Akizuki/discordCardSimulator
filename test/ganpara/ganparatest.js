@@ -1,13 +1,13 @@
 const Ganpara = require('../../ganpara/ganpara.js');
 const Cards = require('../../cardbase/cards.js');
 const GCard = require('../../ganpara/ganparacard.js');
-const deck = require('../../ganpara/deck_consumer.js').consumer();
+const deck = require('./testdeck.js').test();
 const porno = new GCard({
   nameE: 'PORNO',
   nameJ: 'ポルノ',
   kind: 'CONTRABAND CARD',
   cost: '2', text: '【摘発対象】【制限1】【公開1】MONEY2枚を拾う、手に入れたターンは使用できない',
-  back: 'PORNO'
+  back: 'PORNO',
 });
 
 const expect = require('expect');
@@ -33,14 +33,12 @@ describe('クラス機能チェック(ganpara)', function() {
     const gp = new Ganpara(messenger('gloval'));
     gp.setup(
         players,
-        deck.lifesIn,
-        deck.lifesOpt,
-        deck.startHands,
-        deck.startMarket,
-        deck.deck,
+        deck,
     );
     gp.deck.putOn(porno);
     gp.roundTurn();
     console.log(gp.playerFromId('1').toString());
+    console.log(gp.playerFromId('1').hand.toString());
+    console.log(gp.playerFromId('2').hand.toString());
   });
 });

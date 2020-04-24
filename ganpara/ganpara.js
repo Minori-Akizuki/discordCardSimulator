@@ -3,6 +3,19 @@ const GCard = require('./ganparacard.js');
 const GPlayer = require('./ganparaplayer');
 const Randomizer = require('../cardbase/randomizer.js');
 
+const deckKind = {
+  LIFES_IN: 'lifesIn',
+  LIFES_OPT: 'lifesOpt',
+  GSS: 'gangsters',
+  MONEYS: 'moneys',
+  BULLETS: 'bullets',
+  SPS: 'specialists',
+  WEAPONS: 'weapons',
+  ST_MKT: 'startMarket',
+  NO_HANDS: 'noHands',
+};
+
+
 module.exports = class ganpara {
   /**
    * @constructor
@@ -43,7 +56,7 @@ module.exports = class ganpara {
 
   /**
    * スタピーを決定する
-   * @param {Number} n
+   * @param {Number} id
    */
   setStartPlayerFromId(id) {
     const index = this.players.findIndex((x)=>x.id==id);
@@ -81,35 +94,46 @@ module.exports = class ganpara {
   }
 
   /**
+   * デッキ種別(.deck)でフィルタリングをする
+   * @param {[any]} cards
+   * @param {[any]} deckKind
+   * @return {[any]}
+   */
+  filterDeck(cards, deckKind) {
+    if (!deckKind) return cards.filter((c)=>!c.deck||c.deck=='');
+    return cards.filter((c)=>c.deck == deckKind);
+  }
+
+  /**
+   * デッキ種別でフィルタされたGCardのデッキを作成する
+   * @param {[any]} _deck 全デッキ
+   * @param {String} _deckKind カード種別
+   * @return {Cards}
+   */
+  initGCards(_deck, _deckKind) {
+    return new Cards(this.filterDeck(_deck, _deckKind).map((c)=> new GCard(c)));
+  }
+
+  /**
      * ゲームセットアップ
-     * _startHands の中身
-     *  .gangstars
-     *  .moneys
-     *  .bullets
-     *  .specialists
-     *  .weapons
-     * 余ったカードはデッキに入ります。
      * @param {[Object]} players プレイヤー
-     * @param {[Card]} _lifesIn 確定ライフ
-     * @param {[Card]} _lifesOpt 欠けありライフ
-     * @param {Object} _startHands 初期手札に入るカード
-     * @param {[Card]} _startMarket 初期場
-     * @param {[Cards]} _deck その他のカード
+     * @param {[Cards]} _deck デッキ
      */
-  setup(players, _lifesIn, _lifesOpt, _startHands, _startMarket, _deck) {
+  setup(players, _deck) {
     this.messengerGloval.send('ゲームを初期化します');
     // カード捨て場
     const trash = new Cards();
     // convert
-    const lifesIn = new Cards(_lifesIn.map((x)=> new GCard(x)));
-    const lifesOpt = new Cards(_lifesOpt.map((x)=> new GCard(x)));
-    const gangsters = new Cards(_startHands.gangsters.map((x)=> new GCard(x)));
-    const moneys = new Cards(_startHands.moneys.map((x)=> new GCard(x)));
-    const bullets = new Cards(_startHands.bullets.map((x)=> new GCard(x)));
-    const specialists = new Cards(_startHands.specialists.map((x)=> new GCard(x)));
-    const weapons = new Cards(_startHands.weapons.map((x)=> new GCard(x)));
-    const startMarket = new Cards(_startMarket.map((x)=> new GCard(x)));
-    const deck = new Cards(_deck.map((x)=> new GCard(x)));
+    const lifesIn = this.initGCards(_deck, deckKind.LIFES_IN);
+    const lifesOpt = this.initGCards(_deck, deckKind.LIFES_OPT);
+    const gangsters = this.initGCards(_deck, deckKind.GSS);
+    const moneys = this.initGCards(_deck, deckKind.MONEYS);
+    const bullets = this.initGCards(_deck, deckKind.BULLETS);
+    const specialists = this.initGCards(_deck, deckKind.SPS);
+    const weapons = this.initGCards(_deck, deckKind.WEAPONS);
+    const startMarket = this.initGCards(_deck, deckKind.ST_MKT);
+    const noHands = this.initGCards(_deck, deckKind.NO_HANDS);
+    const deck = this.initGCards(_deck);
 
     // count player
     this.playerNum = players.length;
@@ -156,6 +180,8 @@ module.exports = class ganpara {
       this.players[i].sortHand();
     }
 
+    // 乱1に入らないカード類を追加
+    deck.putOn(noHands);
     // バックのあるカードがボトムにいるかもしれないのでもう一度デッキをシャッフル
     deck.shaffle();
 
