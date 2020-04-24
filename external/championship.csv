@@ -1,0 +1,89 @@
+nameE,nameJ,kind,cost,isLife,back,text,deck
+BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,bullet
+BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,bullet
+BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,bullet
+BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,bullet
+BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,bullet
+THE BOSS,ボスの座,BOSS CARD,(なし),,,ゲーム開始時に公開すればスタピになれる,bullet
+The Don,死んだはずのボス,BOSS CARD,,,,[通称:THE BOSS] 【制限1】【公開1】場のカードを1枚誰かに渡す,noHands
+CIGAR,タバコ,CONTRABAND CARD,1,,,【摘発対象】【制限1】【公開1】となりの人の許可が得られれば1ドロー,
+PORNO,ポルノ,CONTRABAND CARD,2,,PORNO,【摘発対象】【制限1】【公開1】MONEY2枚を拾う、手に入れたターンは使用できない,
+DRAG,ドラッグ,CONTRABAND CARD,2,,,【摘発対象】【犯行1】【犯歴】行動回数が1増え、あなたの【LIFE】は【摘発対象】になる,
+ALCOHOL,密造酒,CONTRABAND CARD,1,,,【摘発対象】【対応】【使い捨て】誰かの取引を止め、その後もターン中は取引ができなくなる。対象は【身代わり】を捨てる事によりこのカードを無効化できる。,
+DUMDUM BULLET,ダムダム弾,CONTRABAND CARD,1,,,【摘発対象】【弾丸】相手の手札が10枚以上なら追加で[捨札2],
+GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangster
+GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangster
+GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangster
+GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangster
+GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangster
+GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,gangster
+GANGSTER,構成員,GANGSTER CARD,1,,,【身代り】【使い捨て1】【MONEYCARD】を拾う,
+VANGUARD,鉄砲玉,GANGSTER CARD,1,,,【身代り】【弾丸】,
+VANGUARD,鉄砲玉,GANGSTER CARD,1,,,【身代り】【弾丸】,
+VANGUARD,鉄砲玉,GANGSTER CARD,1,,,【身代り】【弾丸】,
+RED LIFE,革命派,LIFE CARD,,TRUE,,このカードは公開してはいけない,lifesIn
+BLUE LIFE,保守派,LIFE CARD,,TRUE,,このカードは公開してはいけない,lifesIn
+BLACK LIFE,裏切者,LIFE CARD,,TRUE,,このカードを公開すると行動回数が1増える,lifesIn
+RED LIFE,革命派,LIFE CARD,,TRUE,,このカードは公開してはいけない,lifesOpt
+BLUE LIFE,保守派,LIFE CARD,,TRUE,,このカードは公開してはいけない,lifesOpt
+PURPLE LIFE,臆病者,LIFE CARD,,TRUE,,このカードを他人に見られると【死亡】する,lifesOpt
+GRAY LIFE,共謀者,LIFE CARD,,TRUE,,このカードを他人に見られると【死亡】する,lifesOpt
+MONEY,金,MONEY CARD,(なし),,,【購入1】,moneys
+MONEY,金,MONEY CARD,(なし),,,【購入1】,moneys
+MONEY,金,MONEY CARD,(なし),,,【購入1】,moneys
+MONEY,金,MONEY CARD,(なし),,,【購入1】,moneys
+MONEY,金,MONEY CARD,(なし),,,【購入1】,moneys
+MONEY,金,MONEY CARD,(なし),,,【購入1】,
+MONEY,金,MONEY CARD,(なし),,,【購入1】,
+MONEY,金,MONEY CARD,(なし),,,【購入1】,
+MONEY,金,MONEY CARD,(なし),,,【購入1】,
+FAKE MONEY,偽金,MONEY CARD,(なし),,,【購入1】,
+FAKE MONEY,偽金,MONEY CARD,(なし),,,【購入1】,
+FAKE MONEY,偽金,MONEY CARD,(なし),,,【購入1】,
+FAKE MONEY,偽金,MONEY CARD,(なし),,,【購入1】,
+SPY,潜入者,SPECIALIST CARD,1,,,【使い捨て】[確認3] / [確認2]をして内1枚を奪う,startMarket
+SPY,潜入者,SPECIALIST CARD,1,,,【使い捨て】[確認3] / [確認2]をして内1枚を奪う,
+TRICKSTER,詐欺師,SPECIALIST CARD,1,,,【対応】【使い捨て】コスト1のSPカードからの[確認]を無効にし、そのカードを奪う / 【対応】【公開】取引でこのカードだけを渡す,startMarket
+NEGOTIATOR,交渉人,SPECIALIST CARD,1,,,【制限1】【公開1】[奪取2]の後2枚渡す,
+HUSTLER,売人,SPECIALIST CARD,2,,,【制限1】【公開1】【MONEYCARD】を1枚拾う。その後1コストだけ武器を売却できる。,specialists
+GUNSMITH,銃職人,SPECIALIST CARD,2,,,【制限1】【公開1】場の1コスの【WEAPON CARD】を拾う。追加で金を払えば高いコストも可,specialists
+DETECTIVE,探偵,SPECIALIST CARD,2,,,【制限1】【公開0】[確認2],specialists
+PHANTOM,怪盗,SPECIALIST CARD,2,,,【摘発対象】【使い捨て1】対象の手札が10枚以上あれば[奪取2] / 【対応】【使い捨て】5枚以上の取引が行われた時、それらのカードを任意に2枚奪う,specialists
+KILLER,殺し屋,SPECIALIST CARD,3,,,【使い捨て1】[殺害2]、あなたが黒ならば代わりに[殺害3],
+BEAUTY,美女,SPECIALIST CARD,3,,,【対応】【SPECIALIST CARD】を無効化し奪う(【KILLER】には使えない),
+HERO,英雄,SPECIALIST CARD,3,,,【制限2】(2回目の使用時に捨てなければいけない)【対応】【公開】ダメージ効果を一つ無効にする,
+STEELER,大泥棒,SPECIALIST CARD,2,,,【摘発対象】【公開1】[奪取1],specialists
+BARTENDER,バーテン,SPECIALIST CARD,1,,,【制限1】【公開0】対象に【MONEYCARD】を要求し、貰ったら1ドロー,
+UNDERTAKER,葬儀屋,SPECIALIST CARD,2,,,【制限1】【対応】【公開】誰かが死亡、もしくは【身代り】を捨てた時に【MONEYCARD】を1枚拾う,specialists
+POLICE,警察,SPECIALIST CARD,1,,,【制限1】【使い捨て0】[確認3]し[摘発]する 【摘発時】捨てる,
+TORTUER,拷問人,SPECIALIST CARD,2,,,【摘発対象】【対応】【公開】ダメージを与えた時[確認2]をし、そのうち1枚を捨てる,specialists
+SNATCHER,スリ師,SPECIALIST CARD,1,,,【制限1】【使い捨て0】隣の相手を[奪取1],
+DOCTOR,闇医者,SPECIALIST CARD,2,,,【摘発対象】【制限1】【対応】【公開】誰かの【身代り】時【MONEYCARD】を1枚捨て捨てられたカードを拾う,specialists
+THE CHEFISH,料理人,SPECIALIST CARD,2,,,【制限1】【公開1】[殺害1]、【身代り】をされた場合【MONEYCARD】を1枚拾う,noHands
+THE CONFIDANT,ボスの右腕,SPECIALIST CARD,2,,,【制限1】【対応】【公開】【BOSS CARD】を公開し行動回数+1,noHands
+THE BOILLIONAIRE,億万長者,SPECIALIST CARD,2,,,【制限1】【対応】【公開】【購入】の行動回数をなくす,noHands
+THE ENDORSER,異国の始末屋,SPECIALIST CARD,2,,,【犯行】自身を【即死1】、その後【死亡】していなければ対象に【即死2】/ 【犯歴】LIFEが摘発対象になる。次のターン開始時に手札に戻す,noHands
+GUN,拳銃,WEAPON CARD,1,,,【公開1】【射撃1】[殺害1],weapons
+GUN,拳銃,WEAPON CARD,1,,,【公開1】【射撃1】[殺害1],weapons
+GUN,拳銃,WEAPON CARD,1,,,【公開1】【射撃1】[殺害1],weapons
+GUN,拳銃,WEAPON CARD,1,,,【公開1】【射撃1】[殺害1],weapons
+MACHINEGUN,機関銃,WEAPON CARD,2,,,【公開1】【射撃∞】[殺害1],
+KATANA,日本刀,WEAPON CARD,2,,,【制限1】【公開1】[殺害1],weapons
+SHOTGUN,散弾銃,WEAPON CARD,2,,,【公開1】【射撃1】[殺害1]、隣の人であればさらに[捨札1],weapons
+BULLET,弾丸,WEAPON CARD,1,,,【弾丸】,
+AP-BULLET,貫通弾,WEAPON CARD,1,,,【弾丸】[捨札1],
+AP-BULLET,貫通弾,WEAPON CARD,1,,,【弾丸】[捨札1],
+MAGAZINE,弾倉,WEAPON CARD,2,,,【対応】【使い捨て】[射撃]をしたエンドフェイズに【弾丸】を2枚拾う,
+SILENCER,消音装置,WEAPON CARD,1,,,【対応】【使い捨て】[射撃]の行動回数をなしにする,
+SILENCER,消音装置,WEAPON CARD,1,,,【対応】【使い捨て】[射撃]の行動回数をなしにする,
+GRENADE,手榴弾,WEAPON CARD,2,,,【対応】【使い捨て】被ダメから全員に[殺害1],
+PAIN BULLET,激痛弾,WEAPON CARD,1,,,,
+FATTNESS BULLET,肥満弾,WEAPON CARD,1,,,,
+TS BULLET,転換弾,WEAPON CARD,1,,,,
+CAT BULLET,猫化弾,WEAPON CARD,1,,,,
+BABY BULLET,退行弾,WEAPON CARD,1,,,,
+SENSITIVE BULLET,敏感弾,WEAPON CARD,1,,,,
+SNIPER RIFLE,狙撃銃,WEAPON CARD,2,,,【制限1】 【公開1】[確認2] / 【公開2】【射撃1】[殺害2],weapons
+ASSAULT RIFLE,突撃銃,WEAPON CARD,2,,,【公開1】【射撃1】[殺害1] or [捨札2],weapons
+MAGNUM,大型拳銃,WEAPON CARD,2,,,【制限1】【公開1】【射撃1】[即死1],
+ROCKET LAUNCHER,対戦車擲弾発射器,WEAPON CARD,2,,,【摘発対象】【公開1】【GRENADE】捨て[即死3],
