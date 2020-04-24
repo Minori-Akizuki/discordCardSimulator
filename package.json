@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "axios": "^0.19.2",
+        "csvtojson": "^2.0.10",
         "discord.js": "^12.1.1",
         "klasa": "github:dirigeants/klasa"
     },
