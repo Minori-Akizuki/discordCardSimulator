@@ -15,6 +15,7 @@
         "test-cov": "istanbul test _mocha -- test"
     },
     "dependencies": {
+        "axios": "^0.19.2",
         "discord.js": "^12.1.1",
         "klasa": "github:dirigeants/klasa"
     },
