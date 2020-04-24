@@ -25,15 +25,22 @@ module.exports = class player {
   }
 
   /**
-   *
+   * 手札を通知する
    */
   checkHand() {
-    this.hand.sort(GCard.conpare);
-    this.front.sort(GCard.conpare);
     const handS = this.hand.toString();
     const frontS = this.front.toString();
     const str = ['==========', '手札', handS, this.life.toString(), '前', frontS.toString()].join('\n');
     this.messengerOwn.send(str);
+  }
+
+  /**
+   * 手札をソートし通知する
+   */
+  sortCards() {
+    this.hand.sort(GCard.conpare);
+    this.front.sort(GCard.conpare);
+    this.checkHand();
   }
 
   /**

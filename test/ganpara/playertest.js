@@ -1,15 +1,14 @@
 const GPlayer = require('../../ganpara/ganparaplayer.js');
 const Cards = require('../../cardbase/cards.js');
-const GCards = require('../../ganpara/deck_consumer.js');
 const GCard = require('../../ganpara/ganparacard.js');
 const expect = require('expect');
 const sinon = require('sinon');
 
 const simpleCards5 = [1, 2, 3, 4, 5];
 const ganparacard = {
-  redlife: new GCard( GCards.consumer().lifesIn[0]),
-  gangster: new GCard( GCards.consumer().startHands.gangsters[0] ),
-  money: new GCard( GCards.consumer().startHands.moneys[0] ),
+  redlife: new GCard( {nameE: 'RED LIFE', nameJ: '革命派', kind: 'LIFE CARD', cost: '', text: 'このカードは公開してはいけない', isLife: true, deck: 'lifsIn'}),
+  gangster: new GCard( {nameE: 'GANGSTER', nameJ: '構成員', kind: 'GANGSTER CARD', cost: '1', text: '【身代り】【使い捨て1】【MONEYCARD】を拾う', deck: 'gangsters'} ),
+  money: new GCard( {nameE: 'MONEY', nameJ: '金', kind: 'MONEY CARD', cost: 'なし', text: '【購入1】', deck: 'moneys'} ),
   porno: new GCard({nameE: 'PORNO', nameJ: 'ポルノ', kind: 'CONTRABAND CARD', cost: '2', text: '【摘発対象】【制限1】【公開1】MONEY2枚を拾う、手に入れたターンは使用できない', back: 'PORNO'}),
 };
 const pname = 'Caralina';
@@ -59,6 +58,7 @@ describe('クラス機能チェック(GPlayer)', function() {
     const p = new GPlayer(pname, id, messengerLocal, messengerGloval);
     p.addToHand(getSimpleCards5());
     p.putCardFront(2);
+    p.sortHand();
     expect(p.hand.cs).toEqual([1, 2, 3, 5]);
     expect(p.front.cs).toEqual([4]);
   });
@@ -71,6 +71,7 @@ describe('クラス機能チェック(GPlayer)', function() {
     p.putCardFront(2);
     p.putCardFront(2);
     p.pickCardFront(1);
+    p.sortHand();
     expect(p.hand.cs).toEqual([1, 2, 3, 5]);
     expect(p.front.cs).toEqual([4]);
   });
@@ -141,6 +142,7 @@ describe('クラス機能チェック(GPlayer)', function() {
 
     p.addToHand(getSimpleCards5());
     p.passACard(t, 3);
+    p.sortHand();
 
     expect(p.hand.cs).toEqual([1, 2, 4, 5]);
     expect(t.hand.cs).toEqual([3]);
