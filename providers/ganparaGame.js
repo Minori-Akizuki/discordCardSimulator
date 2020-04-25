@@ -140,12 +140,28 @@ module.exports = class extends Provider {
   }
 
   /**
+   * デッキ変更
+   * @param {KlasaMessage} message
+   * @param {String} deckName
+   * @return {String} 現在のデッキ
+   */
+  changeDeck(message, deckName) {
+    const room = this.returnRoom(message);
+    if (!room) return null;
+    if (!deckName) return room.game.deckName;
+    if (!deck.isExistsDeck(deckName)) return false;
+    room.game.deckName = deckName;
+    return room.game.deckName;
+  }
+
+  /**
    * ゲームの開始
    * @param {KlasaMessage} message
    */
   async startGame(message) {
     const room = this.returnRoom(message);
-    const _deck = await deck.consumer();
+    const deckName = room.game.deckName;
+    const _deck = await deck.customdeck(deckName);
     room.game.setup(
         room.entryies,
         _deck,

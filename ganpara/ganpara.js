@@ -31,6 +31,7 @@ module.exports = class ganpara {
     this.market = new Cards();
     this.deck = new Cards();
     this.inited = false;
+    this.deckName = 'consumer';
   }
 
   /**
@@ -213,7 +214,7 @@ module.exports = class ganpara {
    */
   roundTurn() {
     this.turnPlayerNum = ++this.turnPlayerNum % this.playerNum;
-    if (this.turnPlayerNum == 0) {
+    if (this.turnPlayerNum == this.startPlayer) {
       this.roundNum++;
     }
     this.messengerGloval.send(`${this.roundNum}ラウンド目、ターンプレイヤーは${this.turnPlayer().name}です。`);
@@ -229,10 +230,10 @@ module.exports = class ganpara {
    */
   toString() {
     if (!this.inited) {
-      return 'not inited';
+      return `not inited (${this.deckName})`;
     }
     const round = `--- ${this.roundNum} ラウンド目 ---`;
-    const decknum = '* deck : ' + this.deck.number();
+    const decknum = `* deck (${this.deckName}) : ${this.deck.number()}`;
     const decktop = '* deckTop : ' + (this.deck.peepTop().back ? this.deck.peepTop().back : '■');
     const market = '* market :\n' + this.market.toString();
     const _players = [];
