@@ -2,8 +2,8 @@ module.exports = {
   test: function() {
     return JSON.parse(
         JSON.stringify([
-          {nameE: 'RED LIFE', nameJ: '革命派', kind: 'LIFE CARD', cost: '', text: 'このカードは公開してはいけない', isLife: true, deck: 'lifsIn'},
-          {nameE: 'BLUE LIFE', nameJ: '保守派', kind: 'LIFE CARD', cost: '', text: 'このカードは公開してはいけない', isLife: true, deck: 'lifsIn'},
+          {nameE: 'RED LIFE', nameJ: '革命派', kind: 'LIFE CARD', cost: '', text: 'このカードは公開してはいけない', isLife: true, deck: 'lifesIn'},
+          {nameE: 'BLUE LIFE', nameJ: '保守派', kind: 'LIFE CARD', cost: '', text: 'このカードは公開してはいけない', isLife: true, deck: 'lifesIn'},
           {nameE: 'GANGSTER', nameJ: '構成員', kind: 'GANGSTER CARD', cost: '1', text: '【身代り】【使い捨て1】【MONEYCARD】を拾う', deck: 'gangsters'},
           {nameE: 'GANGSTER', nameJ: '構成員', kind: 'GANGSTER CARD', cost: '1', text: '【身代り】【使い捨て1】【MONEYCARD】を拾う', deck: 'gangsters'},
           {nameE: 'MONEY', nameJ: '金', kind: 'MONEY CARD', cost: 'なし', text: '【購入1】', deck: 'moneys'},

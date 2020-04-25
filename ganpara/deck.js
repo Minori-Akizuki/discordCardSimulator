@@ -1,14 +1,17 @@
 const fs = require('fs');
 const csvReader = require('../util/csv2deck')();
+const csv = require('csvtojson');
 module.exports = {
-  consumer: function() {
-    return csvReader.readcsv('external/consumer.csv');
+  consumer: async function() {
+    return await csvReader.readcsv('external/consumer.csv');
   },
-  championship: function() {
-    return csvReader.readcsv('external/championship.csv');
+  championship: async function() {
+    return await csvReader.readcsv('external/championship.csv');
   },
-  customdeck: function(deckName) {
-    return csvReader.readcsv('external/'+deckName+'.csv');
+  customdeck: async function(deckName) {
+    const deckStr = fs.readFileSync('external/'+deckName+'.csv').toString();
+    const deck = await csv().fromString(deckStr);
+    return deck;
   },
   isExistsDeck: function(deckName) {
     try {

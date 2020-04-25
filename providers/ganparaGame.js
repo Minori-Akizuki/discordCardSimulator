@@ -1,6 +1,6 @@
 const {Provider} = require('klasa');
 const Ganpara = require('../ganpara/ganpara');
-const deck = require('../ganpara/deck');
+const decks = require('../ganpara/deck');
 const Randomizer = require('../cardbase/randomizer');
 
 module.exports = class extends Provider {
@@ -149,9 +149,35 @@ module.exports = class extends Provider {
     const room = this.returnRoom(message);
     if (!room) return null;
     if (!deckName) return room.game.deckName;
-    if (!deck.isExistsDeck(deckName)) return false;
+    if (!decks.isExistsDeck(deckName)) return false;
     room.game.deckName = deckName;
     return room.game.deckName;
+  }
+
+  /**
+   * 今のデッキの内容をチェックする
+   * @param {KlasaMessage} message
+   */
+  async checkDeck(message) {
+    const room = this.returnRoom(message);
+    if (!room) {
+      message.sendMessage('部屋が作成されていません');
+      return;
+    }
+    const deckName = room.game.deckName;
+    const dkobj = await decks.customdeck(deckName);
+    const deck = room.game.sepaleteDeck(dkobj);
+    message.sendMessage(`Full Deck : ${dkobj.length}`);
+    for (const d in deck ) {
+      if (deck[d]) {
+        const str = `${d} : \n`;
+        message.sendMessage(str);
+        let da = deck[d].toString().split('\n');
+        while (da.length) {
+          message.sendMessage(da.splice(0, 10).join('\n'));
+        }
+      }
+    }
   }
 
   /**
@@ -161,10 +187,10 @@ module.exports = class extends Provider {
   async startGame(message) {
     const room = this.returnRoom(message);
     const deckName = room.game.deckName;
-    const _deck = await deck.customdeck(deckName);
+    const deck = await decks.customdeck(deckName);
     room.game.setup(
         room.entryies,
-        _deck,
+        deck,
     );
     room.isStarted = true;
   }

@@ -115,6 +115,26 @@ module.exports = class ganpara {
   }
 
   /**
+   * デッキを仕分けする。
+   * @param {[Cards]} _deck
+   * @return {Object}
+   */
+  sepaleteDeck(_deck) {
+    const deck = {};
+    deck.lifesIn = this.initGCards(_deck, deckKind.LIFES_IN);
+    deck.lifesOpt = this.initGCards(_deck, deckKind.LIFES_OPT);
+    deck.gangsters = this.initGCards(_deck, deckKind.GSS);
+    deck.moneys = this.initGCards(_deck, deckKind.MONEYS);
+    deck.bullets = this.initGCards(_deck, deckKind.BULLETS);
+    deck.specialists = this.initGCards(_deck, deckKind.SPS);
+    deck.weapons = this.initGCards(_deck, deckKind.WEAPONS);
+    deck.startMarket = this.initGCards(_deck, deckKind.ST_MKT);
+    deck.noHands = this.initGCards(_deck, deckKind.NO_HANDS);
+    deck.others = this.initGCards(_deck);
+    return deck;
+  }
+
+  /**
      * ゲームセットアップ
      * @param {[Object]} players プレイヤー
      * @param {[Cards]} _deck デッキ
@@ -142,7 +162,7 @@ module.exports = class ganpara {
     const needLifeNum = this.playerNum - lifesIn.number();
     lifesIn.drawFrom(lifesOpt, needLifeNum);
     lifesIn.shaffle();
-
+    console.log(lifesIn);
     // setup bullets
     // これだけ(弾丸の)カードを抜いてからシャッフルする
     this.adjustCard(bullets, trash, this.playerNum);
@@ -198,6 +218,7 @@ module.exports = class ganpara {
     // 手札の通知
     console.log(this.players);
     this.players.forEach(function(p) {
+      console.log(p);
       p.checkHand();
     });
   }

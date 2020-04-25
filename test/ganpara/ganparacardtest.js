@@ -12,8 +12,6 @@ const cardSpy = {
 describe('クラス機能チェック(GCard)', function() {
   it('カード情報登録', function() {
     const c = new GCard(cardSpy);
-    console.log(c.toString());
-    console.log(c.showDetail());
     expect(c.toString()).toEqual(`【${cardSpy.kind}】【${cardSpy.nameE}】 (${cardSpy.cost})`);
     expect(c.showDetail()).toEqual(`【${cardSpy.kind}】【${cardSpy.nameE}】 -${cardSpy.nameJ}- (${cardSpy.cost}) : ${cardSpy.text}`);
   });
